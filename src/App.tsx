@@ -5,7 +5,7 @@ export const App = () => {
     <>
     <div className="flex flex-col items-center mt-20">
       <div>
-        <p className="text-white">Adresse mail</p>
+        <p className="text-white">Username / Adresse mail</p>
         <input className="min-w-96 p-1" type="text" placeholder="Ex: Lucasdupont@gmail.com"/>
       </div>
       <div className="mt-7">
@@ -21,7 +21,6 @@ export const App = () => {
         <button className="min-w-96 bg-amber-500 hover:bg-amber-700 text-white text-2xl font-bold py-2 px-4 rounded">Connexion</button>
         <p className="text-white mt-2 text-">Pas encore inscrit ? Cliquez ici</p>
       </div>
-      <NavLink to="/informations" className="mt-14 text-white text-2xl hover:underline">En savoir plus</NavLink>
     </div>
     </>
   )
