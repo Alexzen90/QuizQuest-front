@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-sky-600;
+  }
+}
+
+* {
+  font-family: 'Baloo 2', sans-serif;
+}
+
+html, body, main #root {
+  height: 100%;
+  margin: 0;
+}
+
+
+
