@@ -1,12 +1,15 @@
-import { NavLink } from "react-router-dom"
+import React from "react"
 import { useState } from "react"
 import { http } from "../../Infrastructure/Http/axios.instance"
+import { useNavigate } from "react-router"
 
 export const SignUp = () => {
 
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  const navigate = useNavigate()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -15,7 +18,7 @@ export const SignUp = () => {
       console.log(response)
     }).catch(error => {
       console.log(error)
-    })
+    }).finally(() => navigate('/login'))
   }  
 
   return (
@@ -34,9 +37,7 @@ export const SignUp = () => {
         onChange={(e) => setPassword(e.target.value)}/>
 
         <div>
-          <NavLink to="/login">
           <button type="submit" className="min-w-96 bg-amber-500 hover:bg-amber-700 text-white text-2xl font-bold py-2 px-4 rounded-md mt-40">S'inscrire</button>
-          </NavLink>
         </div>
       </form>
     </div>
