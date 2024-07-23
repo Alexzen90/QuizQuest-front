@@ -1,4 +1,4 @@
-import './Infrastructure/style/index.css'
+import './Infrastructure/Style/index.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
