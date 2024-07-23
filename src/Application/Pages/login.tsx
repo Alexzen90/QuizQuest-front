@@ -19,7 +19,7 @@ export const Login = () => {
       console.log(response)
     }).catch(error => {
       console.log(error)
-    }).finally(() => navigate('/login'))
+    }).finally(() => navigate('/modechoice'))
   }  
 
   return (

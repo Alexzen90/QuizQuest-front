@@ -3,6 +3,7 @@ import { AppLayout } from '../../Application/Layout/appLayout.tsx'
 import { Informations } from '../../Application/Pages/informations.tsx'
 import { SignUp } from '../../Application/Pages/signup.tsx'
 import { Login } from '../../Application/Pages/login.tsx'
+import { ModeChoice } from '../../Application/Pages/modechoice.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ export const router = createBrowserRouter([
       {
         path: '/informations',
         element: <Informations />
+      },
+      {
+        path: '/modechoice',
+        element: <ModeChoice />
       }
     ]
   },

@@ -2,6 +2,7 @@ import React from "react"
 import { useState } from "react"
 import { http } from "../../Infrastructure/Http/axios.instance"
 import { useNavigate } from "react-router"
+import { NavLink } from "react-router-dom"
 
 export const SignUp = () => {
 
@@ -35,6 +36,8 @@ export const SignUp = () => {
         <label className="block" htmlFor="password">Password</label>
         <input className="w-full p-2 rounded-md" type="password" placeholder="*********" 
         onChange={(e) => setPassword(e.target.value)}/>
+
+        <NavLink to="/login" className="mt-2 text-white text-lg hover:underline">Deja inscrit ? Cliquez ici</NavLink>
 
         <div>
           <button type="submit" className="min-w-96 bg-amber-500 hover:bg-amber-700 text-white text-2xl font-bold py-2 px-4 rounded-md mt-40">S'inscrire</button>
