@@ -4,6 +4,8 @@ import { Informations } from '../../Application/Pages/informations.tsx'
 import { SignUp } from '../../Application/Pages/signup.tsx'
 import { Login } from '../../Application/Pages/login.tsx'
 import { ModeChoice } from '../../Application/Pages/modechoice.tsx'
+import { Infoaleatoire } from '../../Application/Pages/infoaleatoire.tsx'
+import { ForgotPassword } from '../../Application/Pages/forgotpassword.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -21,11 +23,19 @@ export const router = createBrowserRouter([
       {
         path: '/modechoice',
         element: <ModeChoice />
+      },
+      {
+        path: '/infoaleatoire',
+        element: <Infoaleatoire />
       }
     ]
   },
   {
     path: '/signup',
     element: <SignUp />
+  },
+  {
+    path: '/forgotpassword',
+    element: <ForgotPassword />
   }
 ])
