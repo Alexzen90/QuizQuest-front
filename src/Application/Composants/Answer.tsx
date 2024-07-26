@@ -19,15 +19,15 @@ export const Answer: React.FC<AnswerProps> = ({ text, index }) => {
   }, [index]);
 
   return (
-    <div className="flex items-center p-4 mb-2 border rounded-2xl cursor-pointer hover:bg-gray-100">
+    <div className="flex items-center justify-between p-4 mb-4 border rounded-full cursor-pointer hover:bg-gray-100">
+      <label className="ml-2" onClick={() => quizService.selectAnswer(index)}>{text}</label>
       <input
         type="radio"
         name="answer"
         checked={isSelected}
         onChange={() => quizService.selectAnswer(index)}
-        className="mr-2"
+        className="mr-4"
       />
-      <label onClick={() => quizService.selectAnswer(index)}>{text}</label>
     </div>
   );
 };

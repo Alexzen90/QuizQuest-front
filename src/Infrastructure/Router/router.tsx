@@ -8,6 +8,7 @@ import { Infoaleatoire } from '../../Application/Pages/infoaleatoire.tsx'
 import { ForgotPassword } from '../../Application/Pages/forgotpassword.tsx'
 import { ThemeChoice } from '../../Application/Pages/themechoice.tsx'
 import { Questionmoderandom } from '../../Application/Pages/questionmoderandom.tsx'
+import { QuizCreation } from '../../Application/Pages/quizcreation.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -47,5 +48,9 @@ export const router = createBrowserRouter([
   {
     path: 'questionrandom',
     element: <Questionmoderandom />
+  },
+  {
+    path: 'quizcreation',
+    element: <QuizCreation />
   }
 ])
