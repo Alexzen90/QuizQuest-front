@@ -8,13 +8,14 @@ export const SignUp = () => {
 
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
   const [password, setPassword] = useState('')
 
   const navigate = useNavigate()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    http.post('/user', { username, email, password })
+    http.post('/user', { username, email, name, password })
     .then(response => {
       console.log(response)
     }).catch(error => {
@@ -25,15 +26,19 @@ export const SignUp = () => {
   return (
     <div className="flex justify-center items-center h-screen">
       <form className="p-5 border-solid rounded-3xl flex flex-col" onSubmit={handleSubmit}>
-        <label className="block text-white font-bold text-2xl" htmlFor="username">Username</label>
+        <label className="block text-white font-bold text-2xl" htmlFor="username">Username*</label>
         <input className="w-full p-2 mb-7 rounded-md" type="text" placeholder="username" 
         onChange={(e) => setUsername(e.target.value)}/>
 
-        <label className="block text-white font-bold text-2xl" htmlFor="email">Email</label>
+        <label className="block text-white font-bold text-2xl" htmlFor="name">Name</label>
+        <input className="w-full p-2 mb-7 rounded-md" type="text" placeholder="name" 
+        onChange={(e) => setName(e.target.value)}/>
+
+        <label className="block text-white font-bold text-2xl" htmlFor="email">Email*</label>
         <input className="w-full p-2 mb-7 rounded-md" type="email" autoComplete="off" placeholder="email" 
         onChange={(e) => setEmail(e.target.value)}/>
 
-        <label className="block text-white font-bold text-2xl" htmlFor="password">Password</label>
+        <label className="block text-white font-bold text-2xl" htmlFor="password">Password*</label>
         <input className="w-full p-2 rounded-md" type="password" placeholder="*********" 
         onChange={(e) => setPassword(e.target.value)}/>
 
