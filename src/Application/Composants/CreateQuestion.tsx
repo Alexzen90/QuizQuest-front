@@ -9,7 +9,7 @@ export const CreateQuestion = (props: Props) => {
   const [difficulty, setDifficulty] = useState('')
   const [question, setQuestion] = useState('')
   const [correctAnswer, setCorrectAnswer] = useState('')
-  const [incorrectAnswers, setInccorectAnswers] = useState([''])
+  const [incorrectAnswers, setIncorrectAnswers] = useState([''])
 
   return (
     <div className=" border-2 border-solid border-white p-5 mb-4">
@@ -30,7 +30,7 @@ export const CreateQuestion = (props: Props) => {
 
       <label className="block text-white font-bold text-2xl pt-5 px-3" htmlFor="mauvaisesreponses">Mauvaises réponses</label>
       <input className="w-full p-2 mb-2 rounded-md" type="text" placeholder="Écrivez 3 mauvaises réponses, séparées par des virgules et un espace"
-      onChange={(e) => setInccorectAnswers([e.target.value])}/>
+      onChange={(e) => setIncorrectAnswers([e.target.value])}/>
     </div>
   )
 }
