@@ -1,13 +1,13 @@
 import React, { useState } from "react"
 import { CreateQuestion } from "../Composants/CreateQuestion"
 import { http } from "../../Infrastructure/Http/axios.instance"
-import { useNavigate } from "react-router"
-
-const navigate = useNavigate()
+import { useNavigate } from "react-router-dom"
 
 export const QuizCreation = () => {
   const [name, setName] = useState('')
   const [categorie, setCategorie] = useState('')
+
+  const navigate = useNavigate()
 
   const questionNumber = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
