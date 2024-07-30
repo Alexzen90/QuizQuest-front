@@ -6,19 +6,32 @@ import { useNavigate } from "react-router-dom"
 export const QuizCreation = () => {
   const [name, setName] = useState('')
   const [categorie, setCategorie] = useState('')
+  const [questions, setQuestions] = useState({})
 
   const navigate = useNavigate()
 
   const questionNumber = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
+  const updateQuestion = (number: string, questionData: any) => {
+    setQuestions(prevQuestions => ({
+      ...prevQuestions,
+      [`question${number}`]: questionData
+    }))
+  }
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    http.post('/quiz', { name, categorie })  //A COMPLETER AVEC MES QUESTIONS DU COMPOSANT
+    const quizData = {
+      name,
+      categorie,
+      ...questions
+    }
+    http.post('/quiz', quizData)
     .then(response => {
       console.log(response)
     }).catch(error => {
       console.log(error)
-    }).finally(() => navigate('/themechoice'))
+    })      //.finally(() => navigate('/themechoice'))
   }
 
   return (
@@ -38,7 +51,7 @@ export const QuizCreation = () => {
 
         {
           questionNumber.map((number) => (
-            <CreateQuestion questionNumber={number} />
+            <CreateQuestion key={number} questionNumber={number} updateQuestion={updateQuestion} />
           ))
         }
 
