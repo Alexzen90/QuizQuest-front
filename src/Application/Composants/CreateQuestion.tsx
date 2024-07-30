@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import { QuestionData } from '../../Module/Quiz/quizType'
 
 type Props = {
   questionNumber: string
-  updateQuestion: (number: string, questionData: any) => void
+  updateQuestion: (number: string, questionData: QuestionData) => void
+  difficultyCounts: { facile: number, moyen: number, difficile: number }
 }
 
 export const CreateQuestion = (props: Props) => {
@@ -25,9 +27,9 @@ export const CreateQuestion = (props: Props) => {
     <div className=" border-2 border-solid border-white p-5 mb-4">
       <select className="rounded-md" name="difficulty" onChange={(e) => setDifficulty(e.target.value)}>
         <option value="">--Choisissez une difficulté--</option>
-        <option value="facile">Facile</option>
-        <option value="moyen">Moyen</option>
-        <option value="difficile">Difficile</option>
+        <option value="facile" disabled={props.difficultyCounts.facile >= 4}>Facile</option>
+        <option value="moyen" disabled={props.difficultyCounts.moyen >= 3}>Moyen</option>
+        <option value="difficile" disabled={props.difficultyCounts.difficile >= 3}>Difficile</option>
       </select>
 
       <label className="block text-white font-bold text-2xl pt-5 px-3" htmlFor="question1">Question {props.questionNumber}</label>

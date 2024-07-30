@@ -2,21 +2,36 @@ import React, { useState } from "react"
 import { CreateQuestion } from "../Composants/CreateQuestion"
 import { http } from "../../Infrastructure/Http/axios.instance"
 import { useNavigate } from "react-router-dom"
+import { Difficulty, QuestionData } from "../../Module/Quiz/quizType"
 
 export const QuizCreation = () => {
   const [name, setName] = useState('')
   const [categorie, setCategorie] = useState('')
   const [questions, setQuestions] = useState({})
 
+  const [difficultyCounts, setDifficultyCounts] = useState({
+    facile: 0,
+    moyen: 0,
+    difficile: 0
+  })
+
   const navigate = useNavigate()
 
   const questionNumber = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
-  const updateQuestion = (number: string, questionData: any) => {
+  const updateQuestion = (number: string, questionData: QuestionData) => {
     setQuestions(prevQuestions => ({
       ...prevQuestions,
       [`question${number}`]: questionData
     }))
+
+    setDifficultyCounts(prevCounts => {
+      const newCounts = { ...prevCounts }
+      if (questionData.difficulty) {
+        newCounts[questionData.difficulty as Difficulty] += 1
+      }
+      return newCounts
+    })
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -51,7 +66,7 @@ export const QuizCreation = () => {
 
         {
           questionNumber.map((number) => (
-            <CreateQuestion key={number} questionNumber={number} updateQuestion={updateQuestion} />
+            <CreateQuestion key={number} questionNumber={number} updateQuestion={updateQuestion} difficultyCounts={difficultyCounts} />
           ))
         }
 
