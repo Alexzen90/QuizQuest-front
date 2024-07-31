@@ -5,4 +5,10 @@ export type QuestionData = {
   incorrect_answers: string[]
 }
 
+export type Quiz = {
+  name: string
+  category: string
+  questions: QuestionData[]
+}
+
 export type Difficulty = 'facile' | 'moyen' | 'difficile'

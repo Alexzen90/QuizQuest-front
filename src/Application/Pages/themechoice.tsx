@@ -1,6 +1,16 @@
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { Quiz } from "../../Module/Quiz/quizType";
 
 export const ThemeChoice = () => {
+
+  const [quizzes, setQuizzes] = useState<Quiz[]>([])
+
+  useEffect(() => {
+    const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]')
+    setQuizzes(savedQuizzes)
+  }, [])
+
   return (
     <div className="flex flex-col items-center gap-10 justify-center h-full">
       <h1 className="text-3xl text-center font-bold text-white mt-20">
@@ -19,6 +29,9 @@ export const ThemeChoice = () => {
         <p>Jeux de l'informatique</p>
         <p>Jeux de l'esport</p>
         <p>Jeux de l'aventure</p>
+        {quizzes.map((quiz, index) => (
+          <p key={index}>{quiz.name}</p>
+        ))}
       </div>
       <div className="w-full flex flex-col items-center justify-center">
         <NavLink to={"/quizcreation"}>

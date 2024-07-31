@@ -57,9 +57,14 @@ export const QuizCreation = () => {
     http.post('/quiz', quizData)
     .then(response => {
       console.log(response)
-    }).catch(error => {
+      // Save quiz to local storage
+      const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]')
+      savedQuizzes.push(quizData)
+      localStorage.setItem('quizzes', JSON.stringify(savedQuizzes))
+    })
+    .catch(error => {
       console.log(error)
-    })      //.finally(() => navigate('/themechoice'))
+    }).finally(() => navigate('/themechoice'))      
   }
 
   return (
