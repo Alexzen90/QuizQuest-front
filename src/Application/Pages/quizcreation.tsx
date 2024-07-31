@@ -15,6 +15,8 @@ export const QuizCreation = () => {
     difficile: 0
   })
 
+  const [prevDifficulties, setPrevDifficulties] = useState({})
+
   const navigate = useNavigate()
 
   const questionNumber = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
@@ -27,11 +29,22 @@ export const QuizCreation = () => {
 
     setDifficultyCounts(prevCounts => {
       const newCounts = { ...prevCounts }
+      const prevDifficulty = prevDifficulties[number as keyof typeof prevDifficulties]
+
+      if (prevDifficulty && prevDifficulty !== questionData.difficulty) {
+        newCounts[prevDifficulty as Difficulty] -= 1
+      }
+
       if (questionData.difficulty) {
         newCounts[questionData.difficulty as Difficulty] += 1
       }
       return newCounts
     })
+
+    setPrevDifficulties(prev => ({
+      ...prev,
+      [number]: questionData.difficulty
+    }))
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
