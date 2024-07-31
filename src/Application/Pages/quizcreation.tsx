@@ -65,16 +65,20 @@ export const QuizCreation = () => {
       ...questions
     }
     http.post('/quiz', quizData)
+    http.post('/categorie', quizData.categorie)
     .then(response => {
       console.log(response);
       
-      try {
-        const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]')
-        savedQuizzes.push(quizData)
-        localStorage.setItem('quizzes', JSON.stringify(savedQuizzes))
-      } catch (error) {
-        console.error("Error saving quiz to local storage", error)
-      }
+      // try {
+      //   const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]')
+      //   savedQuizzes.push(quizData)
+      //   localStorage.setItem('quizzes', JSON.stringify(savedQuizzes))
+      //   // const savedCategories = JSON.parse(localStorage.getItem('categories') || '[]')
+      //   // savedCategories.push(quizData.categorie)
+      //   // localStorage.setItem('categories', JSON.stringify(savedCategories))
+      // } catch (error) {
+      //   console.error("Error saving quiz to local storage", error)
+      // }
     })
     .catch(error => {
       console.log(error)
@@ -87,7 +91,7 @@ export const QuizCreation = () => {
       <form className=" w-1/3 p-5 border-solid rounded-3xl flex flex-col" onSubmit={handleSubmit}>
         <label className="block text-white font-bold text-2xl mt-5" htmlFor="name">Choisissez un nom pour votre quiz</label>
         <input className="w-full p-2 mb-10 rounded-md" type="text" placeholder="Nom du quiz"
-        onChange={(e) => setName(e.target.value)}/>
+        onChange={(e) => setName(e.target.value)} required/>
 
         <label className="block text-white font-bold text-2xl" htmlFor="theme">Choisissez une catégorie pour votre quiz</label>
         <input className="w-full p-2 mb-10 rounded-md" type="text" placeholder="Nom de la catégorie"

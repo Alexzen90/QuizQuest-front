@@ -17,10 +17,14 @@ export const Login = () => {
     http.post('/login', { username, password })
     .then(response => {
       console.log(response)
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token)
+        navigate('/modechoice')
+      }
     }).catch(error => {
       console.log(error)
-    }).finally(() => navigate('/modechoice'))
-  }  
+    })
+  }
 
   return (
     <div className="flex justify-center items-center h-full mt-7">

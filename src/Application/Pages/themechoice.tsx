@@ -6,15 +6,27 @@ export const ThemeChoice = () => {
 
   const [quizzes, setQuizzes] = useState<Quiz[]>([])
 
-  useEffect(() => {
-    const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]')
-    setQuizzes(savedQuizzes)
-  }, [])
+  // useEffect(() => {
+  //   const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]')
+  //   setQuizzes(savedQuizzes)
+  // }, [])
+
+  const removeSecondQuiz = () => {
+    try {
+      const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]');
+      if (savedQuizzes.length > 1) {
+        savedQuizzes.splice(1, 1); // Remove the second element (index 1)
+        localStorage.setItem('quizzes', JSON.stringify(savedQuizzes));
+      }
+    } catch (error) {
+      console.error("Error updating local storage", error);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center gap-10 justify-center h-full">
       <h1 className="text-3xl text-center font-bold text-white mt-20">
-        Choisissez un thème
+        Choisissez une catégorie
       </h1>
       <div className="grid grid-cols-4 gap-8 text-xl text-white">
         <p>Jeux vidéo</p>
@@ -34,6 +46,13 @@ export const ThemeChoice = () => {
         ))}
       </div>
       <div className="w-full flex flex-col items-center justify-center">
+      <button
+        onClick={removeSecondQuiz}
+        className="min-w-96 w-1/4 bg-red-500 hover:bg-red-700 text-white text-2xl 
+          font-bold py-2 px-4 rounded-md mt-10"
+      >
+        Delete Second Quiz localStorage
+      </button>
         <NavLink to={"/quizcreation"}>
           <button
             type="submit"
