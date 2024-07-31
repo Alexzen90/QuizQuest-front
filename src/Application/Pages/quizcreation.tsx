@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { CreateQuestion } from "../Composants/CreateQuestion"
 import { http } from "../../Infrastructure/Http/axios.instance"
 import { useNavigate } from "react-router-dom"
@@ -20,6 +20,16 @@ export const QuizCreation = () => {
   const navigate = useNavigate()
 
   const questionNumber = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+
+  useEffect(() => {
+    return () => {
+      setDifficultyCounts({
+        facile: 0,
+        moyen: 0,
+        difficile: 0
+      });
+    };
+  }, []);
 
   const updateQuestion = (number: string, questionData: QuestionData) => {
     setQuestions(prevQuestions => ({
@@ -56,15 +66,20 @@ export const QuizCreation = () => {
     }
     http.post('/quiz', quizData)
     .then(response => {
-      console.log(response)
-      // Save quiz to local storage
-      const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]')
-      savedQuizzes.push(quizData)
-      localStorage.setItem('quizzes', JSON.stringify(savedQuizzes))
+      console.log(response);
+      
+      try {
+        const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]')
+        savedQuizzes.push(quizData)
+        localStorage.setItem('quizzes', JSON.stringify(savedQuizzes))
+      } catch (error) {
+        console.error("Error saving quiz to local storage", error)
+      }
     })
     .catch(error => {
       console.log(error)
-    }).finally(() => navigate('/themechoice'))      
+    })
+    .finally(() => navigate('/themechoice'))      
   }
 
   return (
