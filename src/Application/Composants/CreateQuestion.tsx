@@ -4,12 +4,11 @@ import { QuestionData } from '../../Module/Quiz/quizType'
 type Props = {
   questionNumber: string
   updateQuestion: (number: string, questionData: QuestionData) => void
-  difficultyCounts: { facile: number, moyen: number, difficile: number }
+  difficulty: string
 }
 
 export const CreateQuestion = (props: Props) => {
 
-  const [difficulty, setDifficulty] = useState('')
   const [question, setQuestion] = useState('')
   const [correctAnswer, setCorrectAnswer] = useState('')
   const [incorrectAnswers, setIncorrectAnswers] = useState<string[]>([])
@@ -18,12 +17,11 @@ export const CreateQuestion = (props: Props) => {
 
   useEffect(() => {
     props.updateQuestion(props.questionNumber, {
-      difficulty,
       question,
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers
     })
-  }, [difficulty, question, correctAnswer, incorrectAnswers])
+  }, [question, correctAnswer, incorrectAnswers])
 
   const validateIncorrectAnswers = (input: string) => {
     const answers = input.split(', ')
@@ -37,12 +35,7 @@ export const CreateQuestion = (props: Props) => {
 
   return (
     <div className="border-2 border-solid border-white p-5 mb-4">
-      <select className="rounded-md" name="difficulty" onChange={(e) => setDifficulty(e.target.value)} required>
-        <option value="">--Choisissez une difficulté--</option>
-        <option value="facile" disabled={props.difficultyCounts.facile >= 4}>Facile</option>
-        <option value="moyen" disabled={props.difficultyCounts.moyen >= 3}>Moyen</option>
-        <option value="difficile" disabled={props.difficultyCounts.difficile >= 3}>Difficile</option>
-      </select>
+      <p className='text-white font-bold text-xl'>Difficulté : {props.difficulty}</p>
 
       <label className="block text-white font-bold text-2xl pt-5 px-3" htmlFor="question1">Question {props.questionNumber}</label>
       <input className="w-full p-2 mb-2 rounded-md" type="text" placeholder="Écrivez votre question"

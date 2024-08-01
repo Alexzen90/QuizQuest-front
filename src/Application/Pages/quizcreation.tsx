@@ -2,58 +2,31 @@ import React, { useEffect, useState } from "react"
 import { CreateQuestion } from "../Composants/CreateQuestion"
 import { http } from "../../Infrastructure/Http/axios.instance"
 import { useNavigate } from "react-router-dom"
-import { Difficulty, QuestionData } from "../../Module/Quiz/quizType"
+import { QuestionData } from "../../Module/Quiz/quizType"
 
 export const QuizCreation = () => {
   const [name, setName] = useState('')
   const [categorie, setCategorie] = useState('')
   const [questions, setQuestions] = useState({})
 
-  const [difficultyCounts, setDifficultyCounts] = useState({
-    facile: 0,
-    moyen: 0,
-    difficile: 0
-  })
-
-  const [prevDifficulties, setPrevDifficulties] = useState({})
-
   const navigate = useNavigate()
 
   const questionNumber = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
-  useEffect(() => {
-    return () => {
-      setDifficultyCounts({
-        facile: 0,
-        moyen: 0,
-        difficile: 0
-      });
-    };
-  }, []);
-
+  const updateDifficulty = (number: string) => {
+    const num = +number
+    if (num < 5) {
+      return 'Facile';
+    } else if (num < 8) {
+      return 'Moyen';
+    } else {
+      return 'Difficile';
+    }
+  };
   const updateQuestion = (number: string, questionData: QuestionData) => {
     setQuestions(prevQuestions => ({
       ...prevQuestions,
       [`question${number}`]: questionData
-    }))
-
-    setDifficultyCounts(prevCounts => {
-      const newCounts = { ...prevCounts }
-      const prevDifficulty = prevDifficulties[number as keyof typeof prevDifficulties]
-
-      if (prevDifficulty && prevDifficulty !== questionData.difficulty) {
-        newCounts[prevDifficulty as Difficulty] -= 1
-      }
-
-      if (questionData.difficulty) {
-        newCounts[questionData.difficulty as Difficulty] += 1
-      }
-      return newCounts
-    })
-
-    setPrevDifficulties(prev => ({
-      ...prev,
-      [number]: questionData.difficulty
     }))
   }
 
@@ -64,8 +37,10 @@ export const QuizCreation = () => {
       categorie,
       ...questions
     }
-    console.log(quizData.categorie)
     http.post('/quiz', quizData)
+    .then(response => {
+      console.log(response);
+    })
     http.post('/categorie', {name: quizData.categorie}, { headers: {"Authorization": `Bearer ${localStorage.getItem('token')}`} })
     .then(response => {
       console.log(response);
@@ -104,7 +79,7 @@ export const QuizCreation = () => {
 
         {
           questionNumber.map((number) => (
-            <CreateQuestion key={number} questionNumber={number} updateQuestion={updateQuestion} difficultyCounts={difficultyCounts} />
+            <CreateQuestion key={number} questionNumber={number} updateQuestion={updateQuestion} difficulty={updateDifficulty(number)}  />
           ))
         }
 
