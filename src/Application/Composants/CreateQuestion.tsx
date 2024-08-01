@@ -17,6 +17,7 @@ export const CreateQuestion = (props: Props) => {
 
   useEffect(() => {
     props.updateQuestion(props.questionNumber, {
+      difficulty: props.difficulty,
       question,
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers

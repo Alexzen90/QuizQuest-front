@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { CreateQuestion } from "../Composants/CreateQuestion"
 import { http } from "../../Infrastructure/Http/axios.instance"
 import { useNavigate } from "react-router-dom"
