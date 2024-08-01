@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Quiz } from "../../Module/Quiz/quizType";
 
 export const ThemeChoice = () => {
 
-  const [quizzes, setQuizzes] = useState<Quiz[]>([])
+  const [categories, setCategories] = useState<string[]>([]);
 
-  // useEffect(() => {
-  //   const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]')
-  //   setQuizzes(savedQuizzes)
-  // }, [])
+  useEffect(() => {
+    const savedCategories = JSON.parse(localStorage.getItem('categories') || '[]')
+    setCategories(savedCategories)
+  }, [])
 
-  const removeSecondQuiz = () => {
+  const removeSecondcategorie = () => {
     try {
-      const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]');
-      if (savedQuizzes.length > 1) {
-        savedQuizzes.splice(1, 1); // Remove the second element (index 1)
-        localStorage.setItem('quizzes', JSON.stringify(savedQuizzes));
+      const savedcategories = JSON.parse(localStorage.getItem('categories') || '[]');
+      if (savedcategories.length > 1) {
+        savedcategories.splice(1, 1); // Remove the second element (index 1)
+        localStorage.setItem('categories', JSON.stringify(savedcategories));
       }
     } catch (error) {
       console.error("Error updating local storage", error);
@@ -41,17 +40,17 @@ export const ThemeChoice = () => {
         <p>Jeux de l'informatique</p>
         <p>Jeux de l'esport</p>
         <p>Jeux de l'aventure</p>
-        {quizzes.map((quiz, index) => (
-          <p key={index}>{quiz.name}</p>
+        {categories.map((categorie, index) => (
+          <p key={index}>{categorie}</p>
         ))}
       </div>
       <div className="w-full flex flex-col items-center justify-center">
       <button
-        onClick={removeSecondQuiz}
+        onClick={removeSecondcategorie}
         className="min-w-96 w-1/4 bg-red-500 hover:bg-red-700 text-white text-2xl 
           font-bold py-2 px-4 rounded-md mt-10"
       >
-        Delete Second Quiz localStorage
+        Delete Second categorie localStorage
       </button>
         <NavLink to={"/quizcreation"}>
           <button

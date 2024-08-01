@@ -31,36 +31,49 @@ export const QuizCreation = () => {
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+    event.preventDefault();
+    
     const quizData = {
       name,
       categorie,
       ...questions
-    }
+    };
+
+    const saveToLocalStorage = () => {
+        const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]')
+        savedQuizzes.push(quizData)
+        localStorage.setItem('quizzes', JSON.stringify(savedQuizzes))
+        
+        const savedCategories = JSON.parse(localStorage.getItem('categories') || '[]')
+        if (!savedCategories.includes(quizData.categorie)) {
+            savedCategories.push(quizData.categorie);
+            localStorage.setItem('categories', JSON.stringify(savedCategories))
+        }
+    };
+
     http.post('/quiz', quizData)
-    .then(response => {
-      console.log(response);
-    })
-    http.post('/categorie', {name: quizData.categorie}, { headers: {"Authorization": `Bearer ${localStorage.getItem('token')}`} })
-    .then(response => {
-      console.log(response);
-      
-      // try {
-      //   const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]')
-      //   savedQuizzes.push(quizData)
-      //   localStorage.setItem('quizzes', JSON.stringify(savedQuizzes))
-      //   // const savedCategories = JSON.parse(localStorage.getItem('categories') || '[]')
-      //   // savedCategories.push(quizData.categorie)
-      //   // localStorage.setItem('categories', JSON.stringify(savedCategories))
-      // } catch (error) {
-      //   console.error("Error saving quiz to local storage", error)
-      // }
-    })
-    .catch(error => {
-      console.log(error)
-    })
-    .finally(() => navigate('/themechoice'))      
-  }
+        .then(response => {
+            console.log(response)
+            
+            const savedCategories = JSON.parse(localStorage.getItem('categories') || '[]')
+            
+            if (!savedCategories.includes(quizData.categorie)) {
+                return http.post('/categorie', { name: quizData.categorie }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } })
+                    .then(response => {
+                        console.log(response)
+                        saveToLocalStorage()
+                    })
+            } else {
+                saveToLocalStorage();
+            }
+        })
+        .catch(error => {
+            console.error("An error occurred:", error)
+        })
+        .finally(() => {
+            navigate('/themechoice')
+        })
+  };
 
   return (
     <div className="flex justify-center items-center h-full">
