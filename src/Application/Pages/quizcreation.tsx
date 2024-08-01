@@ -64,8 +64,9 @@ export const QuizCreation = () => {
       categorie,
       ...questions
     }
+    console.log(quizData.categorie)
     http.post('/quiz', quizData)
-    http.post('/categorie', quizData.categorie)
+    http.post('/categorie', {name: quizData.categorie}, { headers: {"Authorization": `Bearer ${localStorage.getItem('token')}`} })
     .then(response => {
       console.log(response);
       
