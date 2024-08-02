@@ -51,7 +51,7 @@ export const CreateQuestion = (props: Props) => {
         onChange={(e) => setIncorrectAnswersInput(e.target.value)}
         onBlur={(e) => validateIncorrectAnswers(e.target.value)}
         required/>
-      {validationMessage && <p className="text-amber-300">{validationMessage}</p>}
+      {validationMessage && <p className="text-amber-500">{validationMessage}</p>}
     </div>
   )
 }
