@@ -11,17 +11,17 @@ export const ThemeChoice = () => {
     setCategories(savedCategories)
   }, [])
 
-  // const removeSecondcategorie = () => {
-  //   try {
-  //     const savedquizzes = JSON.parse(localStorage.getItem('quizzes') || '[]');
-  //     if (savedquizzes.length > 1) {
-  //       savedquizzes.splice(2, 1); // Remove the third element (index 2)
-  //       localStorage.setItem('quizzes', JSON.stringify(savedquizzes));
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating local storage", error);
-  //   }
-  // };
+  const removeSecondcategorie = () => {
+    try {
+      const savedquizzes = JSON.parse(localStorage.getItem('quizzes') || '[]');
+      if (savedquizzes.length > 1) {
+        savedquizzes.splice(7, 1); // Remove the third element (index 2)
+        localStorage.setItem('quizzes', JSON.stringify(savedquizzes));
+      }
+    } catch (error) {
+      console.error("Error updating local storage", error);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center gap-10 justify-center h-full">
@@ -34,13 +34,13 @@ export const ThemeChoice = () => {
         ))}
       </div>
       <div className="w-full flex flex-col items-center justify-center">
-        {/* <button
+        <button
           onClick={removeSecondcategorie}
           className="min-w-96 w-1/4 bg-red-500 hover:bg-red-700 text-white text-2xl 
             font-bold py-2 px-4 rounded-md mt-10"
         >
           Delete Second categorie localStorage
-        </button> */}
+        </button>
         <NavLink to={"/quizcreation"}>
           <button
             type="submit"

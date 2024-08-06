@@ -44,7 +44,7 @@ export const QuizCreation = () => {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const quizData = {
@@ -53,49 +53,69 @@ export const QuizCreation = () => {
       ...questions
     };
 
+    const questionData = {
+      ...questions
+    }
+
     const saveToLocalStorage = () => {
-      const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]')
-
-      if (savedQuizzes.some((quiz: any) => quiz.name === quizData.name)) {
-        setErrorMessage('Il existe déjà un quiz avec ce nom')
-        return false
+      try {
+        const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]');
+    
+        if (savedQuizzes.some((quiz: any) => quiz.name === quizData.name)) {
+          setErrorMessage('Il existe déjà un quiz avec ce nom');
+          return false;
+        }
+    
+        savedQuizzes.push(quizData);
+        localStorage.setItem('quizzes', JSON.stringify(savedQuizzes));
+    
+        const savedCategories = JSON.parse(localStorage.getItem('categories') || '[]');
+        if (!savedCategories.includes(quizData.categorie)) {
+          savedCategories.push(quizData.categorie);
+          localStorage.setItem('categories', JSON.stringify(savedCategories));
+        }
+    
+        return true;
+      } catch (error) {
+        console.error('Error saving to local storage:', error);
+        setErrorMessage('Erreur lors de la sauvegarde. Veuillez réessayer.');
+        return false;
       }
-
-      savedQuizzes.push(quizData);
-      localStorage.setItem('quizzes', JSON.stringify(savedQuizzes));
-
-      const savedCategories = JSON.parse(localStorage.getItem('categories') || '[]')
-      if (!savedCategories.includes(quizData.categorie)) {
-        savedCategories.push(quizData.categorie)
-        localStorage.setItem('categories', JSON.stringify(savedCategories))
-      }
-
-      return true
     };
 
-    http.post('/quiz', quizData, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } })
-      .then(response => {
-        console.log('Quiz creation response:', response)
+    const questionDataArray = Object.entries(quizData).map(([key, value]) => {
+      if (key.startsWith('question')) {
+        return value;
+      }
+      return null; // Ignore non-question properties
+    }).filter(Boolean); // Remove null values
+    
+    console.log(questionDataArray);
 
-        const savedCategories = JSON.parse(localStorage.getItem('categories') || '[]')
+    try {
+      const quizResponse = await http.post('/quiz', quizData, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
+      console.log('Quiz creation response:', quizResponse);
+  
+      const questionResponse = await http.post('/questions', questionDataArray, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
+      console.log('Question creation response:', questionResponse);
+      console.log('Questions:', questionData);
+  
+      const savedCategories = JSON.parse(localStorage.getItem('categories') || '[]');
+      if (!savedCategories.includes(quizData.categorie)) {
+        const categoryResponse = await http.post('/categorie', { name: quizData.categorie }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
+        console.log('Category creation response:', categoryResponse);
+      }
+  
+      if (saveToLocalStorage()) {
+        navigate('/themechoice');
+      }
+    } catch (error) {
+      console.error('Error creating quiz or questions:', error);
+      setErrorMessage('Une erreur est survenue lors de la création du quiz. Veuillez réessayer.');
+    }
 
-        if (!savedCategories.includes(quizData.categorie)) {
-          return http.post('/categorie', { name: quizData.categorie }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } })
-            .then(response => {
-              console.log('Category creation response:', response)
-              if (saveToLocalStorage()) {
-                navigate('/themechoice')
-              }
-            });
-        } else {
-          if (saveToLocalStorage()) {
-            navigate('/themechoice')
-          }
-        }
-      })
-      .catch(error => {
-        console.log(error)
-      });
+
+        
   };
 
   return (
