@@ -9,6 +9,7 @@ export const Login = () => {
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const navigate = useNavigate()
 
@@ -23,6 +24,7 @@ export const Login = () => {
       }
     }).catch(error => {
       console.log(error)
+      setErrorMessage("Ce nom d'utilisateur ou le mot de passe est incorrect.")
     })
   }
 
@@ -36,6 +38,8 @@ export const Login = () => {
         <label className="block text-white font-bold text-2xl" htmlFor="password">Password</label>
         <input className="w-full p-2 rounded-md" type="password" placeholder="*********" 
         onChange={(e) => setPassword(e.target.value)}/>
+
+        {errorMessage && <p className="text-amber-400 mt-2">{errorMessage}</p>}
 
         <div className="flex justify-between">
           <div className="mt-2 flex text-white items-center">
