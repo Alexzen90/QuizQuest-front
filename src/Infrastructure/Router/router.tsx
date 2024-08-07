@@ -9,6 +9,8 @@ import { ForgotPassword } from '../../Application/Pages/forgotpassword.tsx'
 import { ThemeChoice } from '../../Application/Pages/themechoice.tsx'
 import { Questionmoderandom } from '../../Application/Pages/questionmoderandom.tsx'
 import { QuizCreation } from '../../Application/Pages/quizcreation.tsx'
+import { QuizCategoriePage } from '../../Application/Pages/QuizCategoriePage.tsx'
+import { QuizSelectionPage } from '../../Application/Pages/QuizSelectionPage.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +36,14 @@ export const router = createBrowserRouter([
       {
         path: '/themechoice',
         element: <ThemeChoice />
+      },
+      {
+        path: '/themechoice/:categorie',
+        element: <QuizCategoriePage />
+      },
+      {
+        path: '/themechoice/:categorie/:name',
+        element: <QuizSelectionPage />
       }
     ]
   },

@@ -30,7 +30,11 @@ export const ThemeChoice = () => {
       </h1>
       <div className="grid grid-cols-4 gap-8 text-xl text-center text-white">       
         {categories.map((categorie, index) => (
-          <p key={index}>{categorie}</p>
+          <NavLink 
+            key={index} 
+            to={`/themechoice/${categorie}`}>
+            <p>{categorie}</p>
+          </NavLink>
         ))}
       </div>
       <div className="w-full flex flex-col items-center justify-center">
@@ -50,13 +54,6 @@ export const ThemeChoice = () => {
           Créer un quiz
           </button>
         </NavLink>
-        <button
-          type="submit"
-          className="min-w-96 w-1/4 bg-amber-500 hover:bg-amber-700 text-white text-2xl 
-          font-bold py-2 px-4 rounded-md mt-10"
-        >
-        C'est parti !
-        </button>
       </div>
       <div>
         <NavLink

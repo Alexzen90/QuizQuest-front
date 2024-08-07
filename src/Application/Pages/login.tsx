@@ -39,7 +39,7 @@ export const Login = () => {
         <input className="w-full p-2 rounded-md" type="password" placeholder="*********" 
         onChange={(e) => setPassword(e.target.value)}/>
 
-        {errorMessage && <p className="text-amber-400 mt-2">{errorMessage}</p>}
+        {errorMessage && <p className="text-amber-500 mt-2">{errorMessage}</p>}
 
         <div className="flex justify-between">
           <div className="mt-2 flex text-white items-center">

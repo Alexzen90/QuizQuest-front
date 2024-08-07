@@ -28,6 +28,8 @@ export const CreateQuestion = (props: Props) => {
     const answers = input.split(', ')
     if (answers.length !== 3) {
       setValidationMessage('Veuillez ajouter 3 possibilités de réponses (exemple: rue, ville, montagne)')
+    } else if (answers.includes(correctAnswer)) {
+      setValidationMessage("La bonne réponse ne peut pas être la même que l'une des mauvaises réponses")
     } else {
       setValidationMessage('')
       setIncorrectAnswers(answers)
