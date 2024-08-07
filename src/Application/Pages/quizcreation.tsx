@@ -59,13 +59,20 @@ export const QuizCreation = () => {
 
     const saveToLocalStorage = () => {
       try {
+        const savedQuestions = JSON.parse(localStorage.getItem('questions') || '[]');
+        Object.entries(questionData).forEach(([key, value]) => {
+          if (key.startsWith('question')) {
+            savedQuestions.push(value);
+          }
+        });
+        localStorage.setItem('questions', JSON.stringify(savedQuestions));
+
         const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]');
     
         if (savedQuizzes.some((quiz: any) => quiz.name === quizData.name)) {
           setErrorMessage('Il existe déjà un quiz avec ce nom');
           return false;
         }
-    
         savedQuizzes.push(quizData);
         localStorage.setItem('quizzes', JSON.stringify(savedQuizzes));
     
@@ -74,8 +81,8 @@ export const QuizCreation = () => {
           savedCategories.push(quizData.categorie);
           localStorage.setItem('categories', JSON.stringify(savedCategories));
         }
-    
         return true;
+
       } catch (error) {
         console.error('Error saving to local storage:', error);
         setErrorMessage('Erreur lors de la sauvegarde. Veuillez réessayer.');
@@ -90,21 +97,27 @@ export const QuizCreation = () => {
       return null; // Ignore non-question properties
     }).filter(Boolean); // Remove null values
     
-    console.log(questionDataArray);
-
     try {
-      const quizResponse = await http.post('/quiz', quizData, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
-      console.log('Quiz creation response:', quizResponse);
-  
-      const questionResponse = await http.post('/questions', questionDataArray, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
-      console.log('Question creation response:', questionResponse);
-      console.log('Questions:', questionData);
-  
+
       const savedCategories = JSON.parse(localStorage.getItem('categories') || '[]');
+      let currentCategoryId = savedCategories.includes(quizData.categorie) ? savedCategories : ""
       if (!savedCategories.includes(quizData.categorie)) {
         const categoryResponse = await http.post('/categorie', { name: quizData.categorie }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
         console.log('Category creation response:', categoryResponse);
+        currentCategoryId = categoryResponse.data._id
+      } else if (savedCategories.includes(quizData.categorie)) {
+        const categoryResponse = await http.get('/categorie', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { fields: "name", value: quizData.categorie } }); 
+        console.log('Category retrieval response:', categoryResponse);
+        currentCategoryId = categoryResponse.data._id
       }
+
+      const questionResponse = await http.post('/questions', questionDataArray, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { categorie: currentCategoryId} });
+      console.log('Question creation response:', questionResponse);
+
+      const quizResponse = await http.post('/quiz', quizData, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
+      console.log('Quiz creation response:', quizResponse);
+  
+      
   
       if (saveToLocalStorage()) {
         navigate('/themechoice');
