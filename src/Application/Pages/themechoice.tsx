@@ -15,7 +15,7 @@ export const ThemeChoice = () => {
   //   try {
   //     const savedquizzes = JSON.parse(localStorage.getItem('quizzes') || '[]');
   //     if (savedquizzes.length > 1) {
-  //       savedquizzes.splice(7, 1); // Remove the third element (index 2)
+  //       savedquizzes.splice(1, 1); // Remove the second element (index 1)
   //       localStorage.setItem('quizzes', JSON.stringify(savedquizzes));
   //     }
   //   } catch (error) {
@@ -25,7 +25,7 @@ export const ThemeChoice = () => {
 
   return (
     <div className="flex flex-col items-center gap-10 justify-center h-full">
-      <h1 className="text-3xl text-center font-bold text-white mt-20">
+      <h1 className="text-3xl text-center font-bold text-white mt-20 mb-10">
         Choisissez une catégorie
       </h1>
       <div className="grid grid-cols-4 gap-8 text-xl text-center text-white">       

@@ -125,8 +125,21 @@ export const Quiz = () => {
     }
   };
 
+  const barProgress = ((currentQuestion + 1) / questions.length) * 100
+
   return (
-    <div>
+    <div >
+      <div className="">
+        <div className="bg-gray-200 h-2 mb-2">
+          <div
+            className="bg-green-500 h-full"
+            style={{ width: `${barProgress}%` }}
+          ></div>
+        </div>
+      </div>
+      <p className="mb-4 text-end">{currentQuestion + 1}/{questions.length}</p>
+
+
       {showScore ? (
         <div className="flex flex-col text-center gap-10">
           <h2 className="text-3xl">Quiz terminé !</h2>
@@ -142,19 +155,20 @@ export const Quiz = () => {
       ) : (
         <div className="flex flex-col text-center gap-10">
           <h2>{questions[currentQuestion]?.question}</h2>
-          <ul>
+          <ul className="grid grid-cols-2 gap-4">
             {questions[currentQuestion]?.options.map((option, index) => (
               <li
                 key={index}
-                className="flex text-lg justify-between"
-                style={{
-                  backgroundColor:
-                    validated && option === correctAnswer
-                      ? "green"
-                      : validated && answers[currentQuestion] === option
-                      ? "red"
-                      : "transparent",
-                }}
+                className={`w-96 flex items-center justify-between p-4 rounded-2xl cursor-pointer ${
+                  validated && option === correctAnswer
+                    ? "bg-green-500 text-white"
+                    : validated && answers[currentQuestion] === option
+                    ? "bg-red-500 text-white"
+                    : answers[currentQuestion] === option
+                    ? "bg-green-500 text-white"
+                    : "bg-gray-100"
+                }`}
+                onClick={() => handleAnswerSelection(currentQuestion, option)}
               >
                 <label>{option}</label>
                 <input
@@ -162,15 +176,24 @@ export const Quiz = () => {
                   name={`question${currentQuestion}`}
                   checked={answers[currentQuestion] === option}
                   value={option}
-                  onChange={() => option && handleAnswerSelection(currentQuestion, option)}
+                  onChange={() => handleAnswerSelection(currentQuestion, option)}
+                  className="hidden"
                 />
               </li>
             ))}
           </ul>
           {!validated ? (
-            <button onClick={handleValidateAnswer}>Valider</button>
+            <div className="flex justify-center">
+              <button onClick={handleValidateAnswer} className="mt-4 p-2 w-1/2 bg-sky-700 text-white rounded-3xl">
+                Valider
+              </button>
+            </div>
           ) : (
-            <button onClick={handleNextQuestion}>Question suivante</button>
+            <div className="flex justify-center">
+              <button onClick={handleNextQuestion} className="mt-4 p-2 w-1/2 bg-sky-700 text-white rounded-3xl">
+                Question suivante
+              </button>
+            </div>
           )}
         </div>
       )}
