@@ -1,7 +1,24 @@
-import { useParams } from "react-router"
+import { useEffect, useState } from "react"
+import { useNavigate, useParams } from "react-router"
+import { QuizInfos } from "../../Module/Quiz/quizType"
+import { http } from "../../Infrastructure/Http/axios.instance"
 
 export const QuizSelectionPage = () => {
   const { name } = useParams()
+  const navigate = useNavigate()
+
+  const [quiz, setQuiz] = useState<QuizInfos | null>(null)
+
+  useEffect(() => {
+    http.get('/quiz', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { fields: 'name', value: name} })
+    .then((response) => {
+      setQuiz(response.data)
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+  }, [])
+
   return(
     <div className="flex flex-col items-center gap-16 justify-center h-full">
       <h1 className="mt-16 text-white text-4xl">Vous avez choisi le quiz {name}</h1>
@@ -12,14 +29,22 @@ export const QuizSelectionPage = () => {
         <p className="mt-5">Bonne chance.</p>
         </div>
       <div>
-      <button
-          type="submit"
-          className="min-w-96 w-1/4 bg-amber-500 hover:bg-amber-700 text-white text-2xl 
-          font-bold py-2 px-4 rounded-md mt-5"
-        >
-        C'est parti !
+        <button
+            type="submit"
+            onClick={() => navigate(`/themechoice/${quiz?.categorie}/${name}/${quiz?._id}`)}
+            className="min-w-96 w-1/4 bg-amber-500 hover:bg-amber-700 text-white text-2xl 
+            font-bold py-2 px-4 rounded-md mt-5"
+          >
+          C'est parti !
         </button>
-    </div>
+      </div>
+      <div>
+        <>
+          <button 
+            className="mt-8 text-white text-2xl hover:underline"
+            onClick={() => navigate(-1)}>Retour au choix des quizzes</button>
+        </>
+      </div>
     </div>
     
   )

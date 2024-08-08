@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { http } from "../../Infrastructure/Http/axios.instance";
+import { QuizInfos } from "../../Module/Quiz/quizType";
+
 
 export const QuizCategoriePage = () => {
   const { categorie } = useParams();
-  const [quizzes, setQuizzes] = useState<{ name: string, categorie: string, _id: string }[]>([]);
+  const [quizzes, setQuizzes] = useState<QuizInfos[]>([]);
 
   useEffect(() => {
     http.get('/quizzes_by_filters', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { q: categorie} })

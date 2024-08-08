@@ -25,6 +25,7 @@ export const Login = () => {
     }).catch(error => {
       console.log(error)
       setErrorMessage("Ce nom d'utilisateur ou le mot de passe est incorrect.")
+      window.alert("Ce nom d'utilisateur ou le mot de passe est incorrect.")
     })
   }
 

@@ -3,14 +3,15 @@ import { AppLayout } from '../../Application/Layout/appLayout.tsx'
 import { Informations } from '../../Application/Pages/informations.tsx'
 import { SignUp } from '../../Application/Pages/signup.tsx'
 import { Login } from '../../Application/Pages/login.tsx'
+import { ForgotPassword } from '../../Application/Pages/Forgotpassword.tsx'
 import { ModeChoice } from '../../Application/Pages/modechoice.tsx'
 import { Infoaleatoire } from '../../Application/Pages/infoaleatoire.tsx'
-import { ForgotPassword } from '../../Application/Pages/forgotpassword.tsx'
 import { ThemeChoice } from '../../Application/Pages/themechoice.tsx'
 import { Questionmoderandom } from '../../Application/Pages/questionmoderandom.tsx'
 import { QuizCreation } from '../../Application/Pages/quizcreation.tsx'
 import { QuizCategoriePage } from '../../Application/Pages/QuizCategoriePage.tsx'
 import { QuizSelectionPage } from '../../Application/Pages/QuizSelectionPage.tsx'
+import { QuizDisplay } from '../../Application/Pages/QuizDisplay.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -56,11 +57,15 @@ export const router = createBrowserRouter([
     element: <ForgotPassword />
   },
   {
-    path: 'questionrandom',
+    path: '/questionrandom',
     element: <Questionmoderandom />
   },
   {
-    path: 'quizcreation',
+    path: '/quizcreation',
     element: <QuizCreation />
+  },
+  {
+    path: '/themechoice/:categorie/:name/:id',
+    element: <QuizDisplay />
   }
 ])
