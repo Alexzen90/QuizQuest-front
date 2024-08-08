@@ -13,7 +13,7 @@ export const Quiz = () => {
   const [quiz, setQuiz] = useState<QuizFull | null>(null)
 
   useEffect(() => {
-    http.get('/quiz', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { fields: '_id', value: id} })
+    http.get('/quiz/' + id, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } })
     .then((response) => {
       setQuiz(response.data)
     })
@@ -85,9 +85,49 @@ export const Quiz = () => {
     }
   ]
 
+  const handleAnswerSelection = (questionIndex: number, selectedAnswer: string) => {
+    const updatedAnswers = [...answers]
+    updatedAnswers[questionIndex] = selectedAnswer
+    setAnswers(updatedAnswers)
+  }
+
+  const handleNextQuestion = () => {
+    if (answers[currentQuestion] === questions[currentQuestion].answer)
+      setScore(score + 1)
+    if (currentQuestion + 1 < questions.length) {
+      setCurrentQuestion(currentQuestion + 1)
+    } else {
+      setShowScore(true)
+    }
+  }
+
   return (
     <div>
-
+      {showScore ? (
+        <div>
+          <h2>Quiz terminé !</h2>
+          <h3>Votre score est de {score} / {questions.length}</h3>
+        </div>
+      ) : (
+        <div className="flex flex-col  text-center gap-10">
+          <h2>{questions[currentQuestion].question}</h2>
+          <ul>
+            {questions[currentQuestion].options.map((option, index) => (
+              <li key={index} className="flex text-lg justify-between">
+                <label>{option}</label>
+                <input 
+                  type="radio" 
+                  name={`question${currentQuestion}`} 
+                  checked={answers[currentQuestion] === option}
+                  value={option}  
+                  onChange={() => option && handleAnswerSelection(currentQuestion, option)}
+                 />
+              </li>
+            ))}
+          </ul>
+          <button onClick={handleNextQuestion}>Question suivante</button>
+        </div>
+      )}
     </div>
   )
 }
