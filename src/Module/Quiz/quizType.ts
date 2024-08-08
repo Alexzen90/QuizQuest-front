@@ -32,3 +32,10 @@ export type QuizFull = {
   question9: QuestionData,
   question10: QuestionData
 }
+
+export type Question = {
+  difficulty: string;
+  question: string;
+  options: string[];
+  answer: string;
+}
