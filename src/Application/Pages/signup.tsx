@@ -12,16 +12,46 @@ export const SignUp = () => {
   const [password, setPassword] = useState('')
 
   const navigate = useNavigate()
+  const savedUsernames = JSON.parse(localStorage.getItem('Usernames') || '[]')
+  const savedEmails = JSON.parse(localStorage.getItem('Emails') || '[]')
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+  
     http.post('/user', { username, email, name, password })
-    .then(response => {
-      console.log(response)
-    }).catch(error => {
-      console.log(error)
-    }).finally(() => navigate('/login'))
-  }  
+      .then(response => {
+        console.log(response)
+  
+        if (response.data) {
+          savedUsernames.push(response.data.username)
+          localStorage.setItem('Usernames', JSON.stringify(savedUsernames))
+  
+          savedEmails.push(response.data.email)
+          localStorage.setItem('Emails', JSON.stringify(savedEmails))
+  
+          navigate('/login')
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error)
+  
+        let alertTriggered = false
+  
+        if (savedUsernames.includes(username)) {
+          window.alert("Ce nom d'utilisateur est déjà utilisé")
+          alertTriggered = true
+        }
+  
+        if (savedEmails.includes(email)) {
+          window.alert("Cet email est déjà utilisé")
+          alertTriggered = true;
+        }
+  
+        if (!alertTriggered) {
+          navigate('/login')
+        }
+      })
+  }
 
   return (
     <div className="flex justify-center items-center h-screen">
