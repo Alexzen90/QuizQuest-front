@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react"
 import { TimerProps } from "../../Module/Types/timerType"
 
-
-
 export const Timer = ({ onTimeUp, resetKey, isPaused }: TimerProps) => {
   const [count, setCount] = useState(15)
 
@@ -15,7 +13,7 @@ export const Timer = ({ onTimeUp, resetKey, isPaused }: TimerProps) => {
 
     const interval = setInterval(() => {
       setCount((prev) =>{
-        if (prev < 1) {
+        if (prev <= 1) {
           clearInterval(interval)
           onTimeUp()
           return 0

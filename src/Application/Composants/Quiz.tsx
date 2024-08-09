@@ -18,6 +18,7 @@ export const Quiz = () => {
   const [validationMessage, setValidationMessage] = useState("")
   const [resetKey, setResetKey] = useState(0)
   const [isTimerPaused, setIsTimerPaused] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     http
@@ -89,7 +90,8 @@ export const Quiz = () => {
             answer: fetchedQuiz.question10.correct_answer
           }
         ];
-        setQuestions(shuffledQuestions);
+        setQuestions(shuffledQuestions)
+        setIsLoading(false)
       })
       .catch((error) => {
         console.error(error)
@@ -104,17 +106,24 @@ export const Quiz = () => {
     }
   };
 
-  const handleValidateAnswer = () => {
+  const handleValidateAnswer = (isTimeUp = false) => {
+    console.log(questions)
+    if (questions.length === 0) return
     const correct = questions[currentQuestion]?.answer
     setCorrectAnswer(correct ?? "")
-    setValidated(true)
-    setIsTimerPaused(true)
-    if (answers[currentQuestion] === correct) {
+    
+    if (isTimeUp) {
+      setValidationMessage("Temps ecoulé !")
+    } else if (answers[currentQuestion] === correct) {
       setScore(score + 1)
       setValidationMessage("Bonne reponse !")
     } else {
       setValidationMessage("Mauvaise reponse !")
     }
+
+    setValidated(true)
+    setIsTimerPaused(true)
+
   };
 
   
@@ -132,6 +141,10 @@ export const Quiz = () => {
 
   const isAnswerSelected = answers[currentQuestion] !== undefined
   const barProgress = ((currentQuestion + 1) / questions.length) * 100
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div >
@@ -161,7 +174,7 @@ export const Quiz = () => {
       ) : (
         <div className="flex flex-col text-center gap-10">
           <Timer 
-            onTimeUp={handleValidateAnswer}
+            onTimeUp={() => setTimeout(() => handleValidateAnswer(true), 0)}
             resetKey={resetKey}
             isPaused={isTimerPaused}
             />
@@ -196,7 +209,7 @@ export const Quiz = () => {
           {!validated ? (
             <div className="flex justify-center">
               <button 
-                onClick={handleValidateAnswer} 
+                onClick={() => handleValidateAnswer()} 
                 className={`mt-4 p-2 w-1/2 rounded-3xl ${
                   isAnswerSelected ? "bg-sky-700 text-white" : "bg-sky-700 opacity-70 text-gray-900 cursor-not-allowed"
                 }`}
