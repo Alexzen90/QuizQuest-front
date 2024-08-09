@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Question, QuizFull } from "../../Module/Quiz/quizType";
+import { Question, QuizFull } from "../../Module/Types/quizType";
 import { http } from "../../Infrastructure/Http/axios.instance";
 import { NavLink } from "react-router-dom";
 import { shuffleArray } from "../Utils/shuffleArray";
+import { Timer } from "./Timer";
 
 export const Quiz = () => {
   const { id } = useParams()
@@ -15,6 +16,8 @@ export const Quiz = () => {
   const [validated, setValidated] = useState(false)
   const [correctAnswer, setCorrectAnswer] = useState("")
   const [validationMessage, setValidationMessage] = useState("")
+  const [resetKey, setResetKey] = useState(0)
+  const [isTimerPaused, setIsTimerPaused] = useState(false)
 
   useEffect(() => {
     http
@@ -105,6 +108,7 @@ export const Quiz = () => {
     const correct = questions[currentQuestion]?.answer
     setCorrectAnswer(correct ?? "")
     setValidated(true)
+    setIsTimerPaused(true)
     if (answers[currentQuestion] === correct) {
       setScore(score + 1)
       setValidationMessage("Bonne reponse !")
@@ -113,11 +117,12 @@ export const Quiz = () => {
     }
   };
 
-  const isAnswerSelected = answers[currentQuestion] !== undefined
-
+  
   const handleNextQuestion = () => {
     setValidated(false)
     setCorrectAnswer("")
+    setIsTimerPaused(false)
+    setResetKey((prev) => prev + 1)
     if (currentQuestion + 1 < questions.length) {
       setCurrentQuestion(currentQuestion + 1)
     } else {
@@ -125,6 +130,7 @@ export const Quiz = () => {
     }
   };
 
+  const isAnswerSelected = answers[currentQuestion] !== undefined
   const barProgress = ((currentQuestion + 1) / questions.length) * 100
 
   return (
@@ -154,6 +160,11 @@ export const Quiz = () => {
         </div>
       ) : (
         <div className="flex flex-col text-center gap-10">
+          <Timer 
+            onTimeUp={handleValidateAnswer}
+            resetKey={resetKey}
+            isPaused={isTimerPaused}
+            />
           <h2>{questions[currentQuestion]?.question}</h2>
           <ul className="grid grid-cols-2 gap-4">
             {questions[currentQuestion]?.options.map((option, index) => (

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router"
-import { QuizInfos } from "../../Module/Quiz/quizType"
+import { QuizInfos } from "../../Module/Types/quizType"
 import { http } from "../../Infrastructure/Http/axios.instance"
 
 export const QuizSelectionPage = () => {

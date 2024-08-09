@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { QuestionData } from '../../Module/Quiz/quizType'
+import { QuestionData } from '../../Module/Types/quizType'
 
 type Props = {
   questionNumber: string

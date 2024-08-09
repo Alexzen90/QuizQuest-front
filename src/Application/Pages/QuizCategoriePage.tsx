@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { http } from "../../Infrastructure/Http/axios.instance";
-import { QuizInfos } from "../../Module/Quiz/quizType";
+import { QuizInfos } from "../../Module/Types/quizType";
 
 
 export const QuizCategoriePage = () => {

@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { CreateQuestion } from "../Composants/CreateQuestion"
 import { http } from "../../Infrastructure/Http/axios.instance"
 import { useNavigate } from "react-router-dom"
-import { QuestionData } from "../../Module/Quiz/quizType"
+import { QuestionData } from "../../Module/Types/quizType"
 
 export const QuizCreation = () => {
   const [name, setName] = useState('')
