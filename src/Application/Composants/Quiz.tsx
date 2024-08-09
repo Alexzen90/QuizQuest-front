@@ -3,25 +3,18 @@ import { useParams } from "react-router";
 import { Question, QuizFull } from "../../Module/Quiz/quizType";
 import { http } from "../../Infrastructure/Http/axios.instance";
 import { NavLink } from "react-router-dom";
-
-
-// Utility function to shuffle an array
-const shuffleArray = (array: any[]) => {
-  return array
-    .map((value) => ({ value, sort: Math.random() }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(({ value }) => value);
-};
+import { shuffleArray } from "../Utils/shuffleArray";
 
 export const Quiz = () => {
-  const { id } = useParams();
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [score, setScore] = useState(0);
-  const [answers, setAnswers] = useState<string[]>([]);
-  const [showScore, setShowScore] = useState(false);
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [validated, setValidated] = useState(false);
-  const [correctAnswer, setCorrectAnswer] = useState("");
+  const { id } = useParams()
+  const [currentQuestion, setCurrentQuestion] = useState(0)
+  const [score, setScore] = useState(0)
+  const [answers, setAnswers] = useState<string[]>([])
+  const [showScore, setShowScore] = useState(false)
+  const [questions, setQuestions] = useState<Question[]>([])
+  const [validated, setValidated] = useState(false)
+  const [correctAnswer, setCorrectAnswer] = useState("")
+  const [validationMessage, setValidationMessage] = useState("")
 
   useEffect(() => {
     http
@@ -96,32 +89,39 @@ export const Quiz = () => {
         setQuestions(shuffledQuestions);
       })
       .catch((error) => {
-        console.error(error);
-      });
-  }, [id]);
+        console.error(error)
+      })
+  }, [id])
 
   const handleAnswerSelection = (questionIndex: number, selectedAnswer: string) => {
-    const updatedAnswers = [...answers];
-    updatedAnswers[questionIndex] = selectedAnswer;
-    setAnswers(updatedAnswers);
-  };
-
-  const handleValidateAnswer = () => {
-    const correct = questions[currentQuestion]?.answer;
-    setCorrectAnswer(correct ?? "");
-    setValidated(true);
-    if (answers[currentQuestion] === correct) {
-      setScore(score + 1);
+    if (!validated) {
+      const updatedAnswers = [...answers]
+      updatedAnswers[questionIndex] = selectedAnswer
+      setAnswers(updatedAnswers)
     }
   };
 
-  const handleNextQuestion = () => {
-    setValidated(false);
-    setCorrectAnswer("");
-    if (currentQuestion + 1 < questions.length) {
-      setCurrentQuestion(currentQuestion + 1);
+  const handleValidateAnswer = () => {
+    const correct = questions[currentQuestion]?.answer
+    setCorrectAnswer(correct ?? "")
+    setValidated(true)
+    if (answers[currentQuestion] === correct) {
+      setScore(score + 1)
+      setValidationMessage("Bonne reponse !")
     } else {
-      setShowScore(true);
+      setValidationMessage("Mauvaise reponse !")
+    }
+  };
+
+  const isAnswerSelected = answers[currentQuestion] !== undefined
+
+  const handleNextQuestion = () => {
+    setValidated(false)
+    setCorrectAnswer("")
+    if (currentQuestion + 1 < questions.length) {
+      setCurrentQuestion(currentQuestion + 1)
+    } else {
+      setShowScore(true)
     }
   };
 
@@ -166,7 +166,7 @@ export const Quiz = () => {
                     ? "bg-red-500 text-white"
                     : answers[currentQuestion] === option
                     ? "bg-green-500 text-white"
-                    : "bg-gray-100"
+                    : "bg-gray-100 hover:bg-gray-200"
                 }`}
                 onClick={() => handleAnswerSelection(currentQuestion, option)}
               >
@@ -184,13 +184,19 @@ export const Quiz = () => {
           </ul>
           {!validated ? (
             <div className="flex justify-center">
-              <button onClick={handleValidateAnswer} className="mt-4 p-2 w-1/2 bg-sky-700 text-white rounded-3xl">
+              <button 
+                onClick={handleValidateAnswer} 
+                className={`mt-4 p-2 w-1/2 rounded-3xl ${
+                  isAnswerSelected ? "bg-sky-700 text-white" : "bg-sky-700 opacity-70 text-gray-900 cursor-not-allowed"
+                }`}
+                disabled={!isAnswerSelected}>
                 Valider
               </button>
             </div>
           ) : (
-            <div className="flex justify-center">
-              <button onClick={handleNextQuestion} className="mt-4 p-2 w-1/2 bg-sky-700 text-white rounded-3xl">
+            <div className="flex flex-col justify-center items-center">
+              <p className="text-center">{validationMessage}</p>
+              <button onClick={handleNextQuestion} className="mt-8 p-2 w-1/2 bg-sky-700 text-white rounded-3xl">
                 Question suivante
               </button>
             </div>
