@@ -10,10 +10,37 @@ export const SignUp = () => {
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
+  const [usernameErrorMessage, setUsernameErrorMessage] = useState('')
+  const [emailErrorMessage, setEmailErrorMessage] = useState('')
+
 
   const navigate = useNavigate()
   const savedUsernames = JSON.parse(localStorage.getItem('Usernames') || '[]')
   const savedEmails = JSON.parse(localStorage.getItem('Emails') || '[]')
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputUsername = e.target.value
+    setUsername(inputUsername)
+
+    const savedUsernames = JSON.parse(localStorage.getItem('Usernames') || '[]');
+    if (savedUsernames.some((username: any) => username === inputUsername)) {
+      setUsernameErrorMessage("Ce nom d'utilisateur existe déjà, choisissez-en un autre !")
+    } else {
+      setUsernameErrorMessage('')
+    }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputEmail = e.target.value
+    setEmail(inputEmail)
+
+    const savedEmails = JSON.parse(localStorage.getItem('Emails') || '[]');
+    if (savedEmails.some((email: any) => email === inputEmail)) {
+      setEmailErrorMessage("Cet email existe déjà, choisissez-en un autre !")
+    } else {
+      setEmailErrorMessage('')
+    }
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -57,20 +84,24 @@ export const SignUp = () => {
     <div className="flex justify-center items-center h-screen">
       <form className="p-5 border-solid rounded-3xl flex flex-col" onSubmit={handleSubmit}>
         <label className="block text-white font-bold text-2xl" htmlFor="username">Username*</label>
-        <input className="w-full p-2 mb-7 rounded-md" type="text" placeholder="username" 
-        onChange={(e) => setUsername(e.target.value)}/>
+        <input className="w-full p-2 rounded-md" type="text" placeholder="username" 
+        onChange={handleUsernameChange} required/>
+        {usernameErrorMessage && <p className="text-amber-500 mt-2 text-md">{usernameErrorMessage}</p>}
 
-        <label className="block text-white font-bold text-2xl" htmlFor="name">Name</label>
-        <input className="w-full p-2 mb-7 rounded-md" type="text" placeholder="name" 
+
+        <label className="block text-white font-bold mt-5 text-2xl" htmlFor="name">Name</label>
+        <input className="w-full p-2 rounded-md" type="text" placeholder="name" 
         onChange={(e) => setName(e.target.value)}/>
 
-        <label className="block text-white font-bold text-2xl" htmlFor="email">Email*</label>
-        <input className="w-full p-2 mb-7 rounded-md" type="email" autoComplete="off" placeholder="email" 
-        onChange={(e) => setEmail(e.target.value)}/>
+        <label className="block text-white font-bold mt-5 text-2xl" htmlFor="email">Email*</label>
+        <input className="w-full p-2 rounded-md" type="email" autoComplete="off" placeholder="email" 
+        onChange={handleEmailChange} required/>
+        {emailErrorMessage && <p className="text-amber-500 mt-2 text-md">{emailErrorMessage}</p>}
 
-        <label className="block text-white font-bold text-2xl" htmlFor="password">Password*</label>
+
+        <label className="block text-white font-bold mt-5 text-2xl" htmlFor="password">Password*</label>
         <input className="w-full p-2 rounded-md" type="password" placeholder="*********" 
-        onChange={(e) => setPassword(e.target.value)}/>
+        onChange={(e) => setPassword(e.target.value)} required/>
 
         <NavLink to="/login" className="mt-2 text-white text-lg hover:underline">Deja inscrit ? Cliquez ici</NavLink>
 

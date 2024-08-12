@@ -94,8 +94,8 @@ export const QuizCreation = () => {
       if (key.startsWith('question')) {
         return value;
       }
-      return null; // Ignore non-question properties
-    }).filter(Boolean); // Remove null values
+      return null // Ignore non-question properties
+    }).filter(Boolean) // Remove null values
     
     try {
 
@@ -126,9 +126,6 @@ export const QuizCreation = () => {
       console.error('Error creating quiz or questions:', error);
       setErrorMessage('Une erreur est survenue lors de la création du quiz. Veuillez réessayer.');
     }
-
-
-        
   };
 
   return (
