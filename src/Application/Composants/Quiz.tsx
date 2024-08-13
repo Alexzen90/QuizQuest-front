@@ -30,65 +30,66 @@ export const Quiz = () => {
 
         const shuffledQuestions = [
           {
-            difficulty: fetchedQuiz.question1.difficulty,
-            question: fetchedQuiz.question1.question,
-            options: shuffleArray([fetchedQuiz.question1.correct_answer, ...fetchedQuiz.question1.incorrect_answers]),
-            answer: fetchedQuiz.question1.correct_answer
+            difficulty: fetchedQuiz.questions[0].difficulty,
+            question: fetchedQuiz.questions[0].question,
+            options: shuffleArray([fetchedQuiz.questions[0].correct_answer, ...fetchedQuiz.questions[0].incorrect_answers]),
+            answer: fetchedQuiz.questions[0].correct_answer
           },
           {
-            difficulty: fetchedQuiz.question2.difficulty,
-            question: fetchedQuiz.question2.question,
-            options: shuffleArray([fetchedQuiz.question2.correct_answer, ...fetchedQuiz.question2.incorrect_answers]),
-            answer: fetchedQuiz.question2.correct_answer
+            difficulty: fetchedQuiz.questions[1].difficulty,
+            question: fetchedQuiz.questions[1].question,
+            options: shuffleArray([fetchedQuiz.questions[1].correct_answer, ...fetchedQuiz.questions[1].incorrect_answers]),
+            answer: fetchedQuiz.questions[1].correct_answer
           },
           {
-            difficulty: fetchedQuiz.question3.difficulty,
-            question: fetchedQuiz.question3.question,
-            options: shuffleArray([fetchedQuiz.question3.correct_answer, ...fetchedQuiz.question3.incorrect_answers]),
-            answer: fetchedQuiz.question3.correct_answer
+            difficulty: fetchedQuiz.questions[2].difficulty,
+            question: fetchedQuiz.questions[2].question,
+            options: shuffleArray([fetchedQuiz.questions[2].correct_answer, ...fetchedQuiz.questions[2].incorrect_answers]),
+            answer: fetchedQuiz.questions[2].correct_answer
           },
           {
-            difficulty: fetchedQuiz.question4.difficulty,
-            question: fetchedQuiz.question4.question,
-            options: shuffleArray([fetchedQuiz.question4.correct_answer, ...fetchedQuiz.question4.incorrect_answers]),
-            answer: fetchedQuiz.question4.correct_answer
+            difficulty: fetchedQuiz.questions[3].difficulty,
+            question: fetchedQuiz.questions[3].question,
+            options: shuffleArray([fetchedQuiz.questions[3].correct_answer, ...fetchedQuiz.questions[3].incorrect_answers]),
+            answer: fetchedQuiz.questions[3].correct_answer
           },
           {
-            difficulty: fetchedQuiz.question5.difficulty,
-            question: fetchedQuiz.question5.question,
-            options: shuffleArray([fetchedQuiz.question5.correct_answer, ...fetchedQuiz.question5.incorrect_answers]),
-            answer: fetchedQuiz.question5.correct_answer
+            difficulty: fetchedQuiz.questions[4].difficulty,
+            question: fetchedQuiz.questions[4].question,
+            options: shuffleArray([fetchedQuiz.questions[4].correct_answer, ...fetchedQuiz.questions[4].incorrect_answers]),
+            answer: fetchedQuiz.questions[4].correct_answer
           },
           {
-            difficulty: fetchedQuiz.question6.difficulty,
-            question: fetchedQuiz.question6.question,
-            options: shuffleArray([fetchedQuiz.question6.correct_answer, ...fetchedQuiz.question6.incorrect_answers]),
-            answer: fetchedQuiz.question6.correct_answer
+            difficulty: fetchedQuiz.questions[5].difficulty,
+            question: fetchedQuiz.questions[5].question,
+            options: shuffleArray([fetchedQuiz.questions[5].correct_answer, ...fetchedQuiz.questions[5].incorrect_answers]),
+            answer: fetchedQuiz.questions[5].correct_answer
           },
           {
-            difficulty: fetchedQuiz.question7.difficulty,
-            question: fetchedQuiz.question7.question,
-            options: shuffleArray([fetchedQuiz.question7.correct_answer, ...fetchedQuiz.question7.incorrect_answers]),
-            answer: fetchedQuiz.question7.correct_answer
+            difficulty: fetchedQuiz.questions[6].difficulty,
+            question: fetchedQuiz.questions[6].question,
+            options: shuffleArray([fetchedQuiz.questions[6].correct_answer, ...fetchedQuiz.questions[6].incorrect_answers]),
+            answer: fetchedQuiz.questions[6].correct_answer
           },
           {
-            difficulty: fetchedQuiz.question8.difficulty,
-            question: fetchedQuiz.question8.question,
-            options: shuffleArray([fetchedQuiz.question8.correct_answer, ...fetchedQuiz.question8.incorrect_answers]),
-            answer: fetchedQuiz.question8.correct_answer
+            difficulty: fetchedQuiz.questions[7].difficulty,
+            question: fetchedQuiz.questions[7].question,
+            options: shuffleArray([fetchedQuiz.questions[7].correct_answer, ...fetchedQuiz.questions[7].incorrect_answers]),
+            answer: fetchedQuiz.questions[7].correct_answer
           },
           {
-            difficulty: fetchedQuiz.question9.difficulty,
-            question: fetchedQuiz.question9.question,
-            options: shuffleArray([fetchedQuiz.question9.correct_answer, ...fetchedQuiz.question9.incorrect_answers]),
-            answer: fetchedQuiz.question9.correct_answer
+            difficulty: fetchedQuiz.questions[8].difficulty,
+            question: fetchedQuiz.questions[8].question,
+            options: shuffleArray([fetchedQuiz.questions[8].correct_answer, ...fetchedQuiz.questions[8].incorrect_answers]),
+            answer: fetchedQuiz.questions[8].correct_answer
           },
           {
-            difficulty: fetchedQuiz.question10.difficulty,
-            question: fetchedQuiz.question10.question,
-            options: shuffleArray([fetchedQuiz.question10.correct_answer, ...fetchedQuiz.question10.incorrect_answers]),
-            answer: fetchedQuiz.question10.correct_answer
+            difficulty: fetchedQuiz.questions[9].difficulty,
+            question: fetchedQuiz.questions[9].question,
+            options: shuffleArray([fetchedQuiz.questions[9].correct_answer, ...fetchedQuiz.questions[9].incorrect_answers]),
+            answer: fetchedQuiz.questions[9].correct_answer
           }
+          
         ];
         setQuestions(shuffledQuestions)
         setIsLoading(false)
@@ -123,7 +124,6 @@ export const Quiz = () => {
 
     setValidated(true)
     setIsTimerPaused(true)
-
   };
 
   

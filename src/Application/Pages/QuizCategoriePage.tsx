@@ -6,7 +6,19 @@ import { QuizInfos } from "../../Module/Types/quizType";
 
 export const QuizCategoriePage = () => {
   const { categorie } = useParams();
+  const [cat, setCat] = useState([]);
   const [quizzes, setQuizzes] = useState<QuizInfos[]>([]);
+
+  useEffect(() => {
+    http.get('/categories_by_filters', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { q: categorie} })
+      .then((response) => {
+        const savedCategories = response.data.results;
+        setCat(savedCategories);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  })
 
   useEffect(() => {
     http.get('/quizzes_by_filters', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { q: categorie} })

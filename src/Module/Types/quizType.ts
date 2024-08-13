@@ -21,16 +21,7 @@ export type QuizFull = {
   _id: string,
   name: string,
   categorie: string,
-  question1: QuestionData,
-  question2: QuestionData,
-  question3: QuestionData,
-  question4: QuestionData,
-  question5: QuestionData,
-  question6: QuestionData,
-  question7: QuestionData,
-  question8: QuestionData,
-  question9: QuestionData,
-  question10: QuestionData
+  questions: QuestionData[]
 }
 
 export type Question = {

@@ -10,6 +10,7 @@ export const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
 
   const navigate = useNavigate()
 
@@ -20,6 +21,7 @@ export const Login = () => {
       console.log(response)
       if (response.data.token) {
         localStorage.setItem('token', response.data.token)
+        localStorage.setItem('RememberMe', rememberMe.toString())
         navigate('/modechoice')
       }
     }).catch(error => {
@@ -44,8 +46,9 @@ export const Login = () => {
 
         <div className="flex justify-between">
           <div className="mt-2 flex text-white items-center">
-            <input type="checkbox" />
-            <label className="ml-1" htmlFor="remember">Se souvenir de moi</label>
+            <input type="checkbox"
+            onChange={() => setRememberMe(!rememberMe)} />
+            <label className="ml-1" htmlFor="RememberMe">Se souvenir de moi</label>
           </div>
           <NavLink to="/forgotpassword" className="mt-2 text-white text-lg font-medium hover:underline">Mot de passe oublie ?</NavLink>
         </div>

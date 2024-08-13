@@ -1,27 +1,19 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { http } from "../../Infrastructure/Http/axios.instance";
+import { SortArray } from "../Utils/SortArray";
 
 export const ThemeChoice = () => {
 
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    const savedCategories = JSON.parse(localStorage.getItem('categories') || '[]')
-    savedCategories.sort()
-    setCategories(savedCategories)
+     http.get('/categories_by_filters', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } })
+      .then((response) => {
+        const categorieNames = response.data.results.map((categorie: any) => categorie.name);
+        setCategories(categorieNames.sort(SortArray));
+      })
   }, [])
-
-  // const removeSecondcategorie = () => {
-  //   try {
-  //     const savedquizzes = JSON.parse(localStorage.getItem('quizzes') || '[]');
-  //     if (savedquizzes.length > 1) {
-  //       savedquizzes.splice(1, 1); // Remove the second element (index 1)
-  //       localStorage.setItem('quizzes', JSON.stringify(savedquizzes));
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating local storage", error);
-  //   }
-  // };
 
   return (
     <div className="flex flex-col items-center gap-10 justify-center h-full">
@@ -38,13 +30,6 @@ export const ThemeChoice = () => {
         ))}
       </div>
       <div className="w-full flex flex-col items-center justify-center">
-        {/* <button
-          onClick={removeSecondcategorie}
-          className="min-w-96 w-1/4 bg-red-500 hover:bg-red-700 text-white text-2xl 
-            font-bold py-2 px-4 rounded-md mt-10"
-        >
-          Delete Second categorie localStorage
-        </button> */}
         <NavLink to={"/quizcreation"}>
           <button
             type="submit"

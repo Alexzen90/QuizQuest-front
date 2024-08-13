@@ -53,19 +53,8 @@ export const QuizCreation = () => {
       ...questions
     };
 
-    const questionData = {
-      ...questions
-    }
-
     const saveToLocalStorage = () => {
       try {
-        const savedQuestions = JSON.parse(localStorage.getItem('questions') || '[]');
-        Object.entries(questionData).forEach(([key, value]) => {
-          if (key.startsWith('question')) {
-            savedQuestions.push(value);
-          }
-        });
-        localStorage.setItem('questions', JSON.stringify(savedQuestions));
 
         const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]');
     
@@ -90,13 +79,6 @@ export const QuizCreation = () => {
       }
     };
 
-    const questionDataArray = Object.entries(quizData).map(([key, value]) => {
-      if (key.startsWith('question')) {
-        return value;
-      }
-      return null // Ignore non-question properties
-    }).filter(Boolean) // Remove null values
-    
     try {
 
       const savedCategories = JSON.parse(localStorage.getItem('categories') || '[]');
@@ -111,11 +93,27 @@ export const QuizCreation = () => {
         currentCategoryId = categoryResponse.data._id
       }
 
-      const questionResponse = await http.post('/questions', questionDataArray, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { categorie: currentCategoryId} });
-      console.log('Question creation response:', questionResponse);
+      const quizResponse = await http.post('/quiz', { name: quizData.name }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
+      console.log('Quiz creation response:', quizResponse)
+      let quizId = quizResponse.data._id
+      let userId = quizResponse.data.user_id
 
-      const quizResponse = await http.post('/quiz', quizData, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
-      console.log('Quiz creation response:', quizResponse);
+      const questionDataArray = Object.entries(quizData).map(([key, value]) => {
+        if (key.startsWith('question')) {
+          return {
+            ...(value as unknown as object),
+            categorie_id: currentCategoryId,
+            quiz_id: quizId,
+            user_id: userId
+          };
+        }
+        return null // Ignore non-question properties
+      }).filter(Boolean) // Remove null values
+
+      const questionResponse = await http.post('/questions', questionDataArray, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }});
+      console.log('Question creation response:', questionResponse)
+
+      
   
       
   
