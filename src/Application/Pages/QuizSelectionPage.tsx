@@ -31,7 +31,7 @@ export const QuizSelectionPage = () => {
       <div>
         <button
             type="submit"
-            onClick={() => navigate(`/themechoice/${quiz?.categorie}/${name}/${quiz?._id}`)}
+            onClick={() => navigate(`/themechoice/${quiz?.categorie_id}/${name}/${quiz?._id}`)}
             className="min-w-96 w-1/4 bg-amber-500 hover:bg-amber-700 text-white text-2xl 
             font-bold py-2 px-4 rounded-md mt-5"
           >

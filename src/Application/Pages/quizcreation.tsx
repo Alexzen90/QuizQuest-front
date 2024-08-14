@@ -93,7 +93,7 @@ export const QuizCreation = () => {
         currentCategoryId = categoryResponse.data._id
       }
 
-      const quizResponse = await http.post('/quiz', { name: quizData.name }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
+      const quizResponse = await http.post('/quiz', { name: quizData.name, categorie_id: currentCategoryId }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
       console.log('Quiz creation response:', quizResponse)
       let quizId = quizResponse.data._id
       let userId = quizResponse.data.user_id

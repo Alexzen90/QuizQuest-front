@@ -13,15 +13,9 @@ export type QuizCreation = {
 
 export type QuizInfos = {
   name: string,
-  categorie: string,
-  _id: string
-}
-
-export type QuizFull = {
+  categorie_id: string,
   _id: string,
-  name: string,
-  categorie: string,
-  questions: QuestionData[]
+  user_id: string
 }
 
 export type Question = {
