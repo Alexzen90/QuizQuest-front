@@ -20,12 +20,15 @@ export const ThemeChoice = () => {
       <h1 className="text-3xl text-center font-bold text-white mt-20 mb-10">
         Choisissez une catégorie
       </h1>
-      <div className="grid grid-cols-4 gap-8 text-xl text-center text-white">       
+      <div className={`grid ${categories.length < 4 ? 'grid-cols-' + categories.length : 'grid-cols-4'} gap-8 text-xl text-center text-white justify-items-center`}>
         {categories.map((categorie, index) => (
           <NavLink 
             key={index} 
-            to={`/themechoice/${categorie}`}>
-            <p>{categorie}</p>
+            to={`/themechoice/${categorie}`} 
+            className="relative p-6 bg-gradient-to-r min-w-80 from-amber-700 to-amber-600 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl"
+          >
+            <p className="relative z-10">{categorie}</p>
+            <div className="absolute inset-0 bg-black opacity-0 transition-opacity duration-300 hover:opacity-10 rounded-lg"></div>
           </NavLink>
         ))}
       </div>

@@ -171,14 +171,14 @@ export const Quiz = () => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col text-center gap-10">
+        <div className="flex flex-col justify-center items-center text-center gap-10">
           <Timer 
             onTimeUp={() => setTimeout(() => handleValidateAnswer(true), 0)}
             resetKey={resetKey}
             isPaused={isTimerPaused}
             />
           <h2>{questions[currentQuestion]?.question}</h2>
-          <ul className="grid grid-cols-2 gap-4">
+          <ul className="grid grid-cols-2 gap-6">
             {questions[currentQuestion]?.options.map((option, index) => (
               <li
                 key={index}
@@ -210,7 +210,7 @@ export const Quiz = () => {
               <button 
                 onClick={() => handleValidateAnswer()} 
                 className={`mt-4 p-2 w-1/2 rounded-3xl ${
-                  isAnswerSelected ? "bg-sky-700 text-white" : "bg-sky-700 opacity-70 text-gray-900 cursor-not-allowed"
+                  isAnswerSelected ? "bg-sky-700 text-white w-80" : "bg-sky-700 opacity-70 w-80 text-gray-900 cursor-not-allowed"
                 }`}
                 disabled={!isAnswerSelected}>
                 Valider
@@ -219,7 +219,7 @@ export const Quiz = () => {
           ) : (
             <div className="flex flex-col justify-center items-center">
               <p className="text-center">{validationMessage}</p>
-              <button onClick={handleNextQuestion} className="mt-8 p-2 w-1/2 bg-sky-700 text-white rounded-3xl">
+              <button onClick={handleNextQuestion} className="mt-8 p-2 w-80 bg-sky-700 text-white rounded-3xl">
                 Question suivante
               </button>
             </div>

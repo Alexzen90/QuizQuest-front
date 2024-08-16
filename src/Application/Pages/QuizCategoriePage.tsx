@@ -34,15 +34,16 @@ export const QuizCategoriePage = () => {
   return (
     <div className="flex flex-col items-center gap-10 justify-center h-full">
       <h1 className="mt-16 text-white text-2xl">Choisissez un quiz dans la catégorie {categorie} </h1>
-      <div className="grid grid-cols-4 gap-8 text-xl text-center text-white">
+      <div className={`grid ${quizzes.length < 4 ? 'grid-cols-' + quizzes.length : 'grid-cols-4'} gap-8 text-xl text-center text-white justify-items-center`}>
         {quizzes
         .map((quiz, index) => (
             <NavLink
                 to={`/themechoice/${categorie}/${quiz.name}`}
                 key={index}
-                className="p-5 border-solid rounded-3xl"
+                className="relative min-w-80 p-6 bg-gradient-to-r from-indigo-700 to-purple-600 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl"
             >
-                <p>{quiz.name}</p>
+                <p className="relative z-10">{quiz.name}</p>
+                <div className="absolute inset-0 bg-black opacity-0 transition-opacity duration-300 hover:opacity-10 rounded-lg"></div>
             </NavLink>
         ))}
       </div>
