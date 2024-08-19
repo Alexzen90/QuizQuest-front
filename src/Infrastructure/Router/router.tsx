@@ -12,6 +12,7 @@ import { QuizCreation } from '../../Application/Pages/quizcreation.tsx'
 import { QuizCategoriePage } from '../../Application/Pages/QuizCategoriePage.tsx'
 import { QuizSelectionPage } from '../../Application/Pages/QuizSelectionPage.tsx'
 import { QuizDisplay } from '../../Application/Pages/QuizDisplay.tsx'
+import { Policy } from '../../Application/Pages/Policy.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />
+      },
+      {
+        path: '/policy',
+        element: <Policy />
       },
       {
         path: '/informations',

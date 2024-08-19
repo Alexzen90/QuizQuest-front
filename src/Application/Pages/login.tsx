@@ -56,7 +56,7 @@ export const Login = () => {
 
         <button type="submit" className="min-w-96 bg-amber-500 hover:bg-amber-700 text-white text-2xl font-bold py-2 px-4 rounded-md mt-20">Connexion</button>
         <NavLink to="/signup" className="mt-2 text-white text-xl hover:underline">Pas encore inscrit ? Cliquez ici</NavLink>
-        <NavLink to="/informations" className="mt-14 text-white text-2xl text-center hover:underline">En savoir plus</NavLink>
+        <NavLink to="/informations" className="mt-24 text-white text-2xl text-center hover:underline">En savoir plus</NavLink>
       </form>
       <CookieConsent
       debug={true}
