@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { http } from "../../Infrastructure/Http/axios.instance"
+import CookieConsent from "react-cookie-consent"
 
 
 export const Login = () => {
@@ -57,6 +58,24 @@ export const Login = () => {
         <NavLink to="/signup" className="mt-2 text-white text-xl hover:underline">Pas encore inscrit ? Cliquez ici</NavLink>
         <NavLink to="/informations" className="mt-14 text-white text-2xl text-center hover:underline">En savoir plus</NavLink>
       </form>
+      <CookieConsent
+      debug={true}
+      buttonText="J'ai compris"
+      style={{
+        background: "#2B373B",
+        textAlign: "center",
+        fontSize: "20px"
+      }}
+      buttonStyle={{
+        color: "#000",
+        fontSize: "20px",
+        background: "rgb(245 158 11)",
+        borderRadius: "8px",
+        marginRight: "60px",
+        width: "200px"    
+      }}
+      >Ce site collecte certaines de vos informations, pour en savoir plus consultez notre <a href="/policy" className="underline">politique de confidentialité</a>.
+      </CookieConsent>
     </div>
   )
 }
