@@ -112,11 +112,21 @@ export const Quiz = () => {
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center text-center gap-10">
-          <Timer 
-            onTimeUp={() => setTimeout(() => handleValidateAnswer(true), 0)}
-            resetKey={resetKey}
-            isPaused={isTimerPaused}
-            />
+          <div className="flex justify-center items-center">
+            <div className="relative">
+              <div className="h-14 w-14 flex items-center justify-center rounded-full bg-gradient-to-tr from-sky-900 to-sky-600 animate-spin">
+                <div className="h-9 w-9 rounded-full bg-white flex justify-center items-center">
+                </div>
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Timer
+                  onTimeUp={() => setTimeout(() => handleValidateAnswer(true), 0)}
+                  resetKey={resetKey}
+                  isPaused={isTimerPaused}
+                />
+              </div>
+            </div>
+          </div>
           <h2>{questions[currentQuestion]?.question}</h2>
           <ul className="grid grid-cols-2 gap-6">
             {questions[currentQuestion]?.options.map((option, index) => (

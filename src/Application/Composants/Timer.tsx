@@ -25,5 +25,5 @@ export const Timer = ({ onTimeUp, resetKey, isPaused }: TimerProps) => {
     return () => clearInterval(interval)
   }, [resetKey, isPaused])
 
-  return <p>{count}</p>
+  return <p className="text-2xl font-bold">{count}</p>
 }
