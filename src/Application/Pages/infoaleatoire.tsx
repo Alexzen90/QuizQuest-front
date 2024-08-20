@@ -16,7 +16,7 @@ export const Infoaleatoire = () => {
       </div>
       <div className="w-1/3 mt-2 items-center flex justify-center">
         <button className="text-white text-xl py-2 px-4 hover:underline w-1/3"><NavLink to="/modechoice">Retour</NavLink></button>
-        <button className="text-white text-xl py-2 px-4 bg-green-600 hover:bg-green-800 rounded-lg w-1/3"><NavLink to="/Questionrandom">Continuer</NavLink></button>
+        <button className="text-white text-xl py-2 px-4 bg-green-600 hover:bg-green-800 rounded-lg w-1/3"><NavLink to="/Quizrandomdisplay">Continuer</NavLink></button>
       </div>
     </div>
     </>

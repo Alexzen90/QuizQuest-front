@@ -1,43 +1,38 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { Question, QuestionData } from "../../Module/Types/quizType";
-import { http } from "../../Infrastructure/Http/axios.instance";
-import { NavLink } from "react-router-dom";
-import { shuffleArray } from "../Utils/shuffleArray";
-import { Timer } from "./Timer";
+import { useEffect, useState } from "react"
+import { Question, QuestionData } from "../../Module/Types/quizType"
+import { http } from "../../Infrastructure/Http/axios.instance"
+import { shuffleArray } from "../Utils/shuffleArray"
+import { NavLink } from "react-router-dom"
 
-export const Quiz = () => {
-  const { id } = useParams()
-  const [currentQuestion, setCurrentQuestion] = useState(0)
-  const [score, setScore] = useState(0)
-  const [answers, setAnswers] = useState<string[]>([])
-  const [showScore, setShowScore] = useState(false)
+export const Quizrandom = () => {
+
   const [questions, setQuestions] = useState<Question[]>([])
+  const [currentQuestion, setCurrentQuestion] = useState(0)
+  const [answers, setAnswers] = useState<string[]>([])
   const [validated, setValidated] = useState(false)
   const [correctAnswer, setCorrectAnswer] = useState("")
   const [validationMessage, setValidationMessage] = useState("")
-  const [resetKey, setResetKey] = useState(0)
-  const [isTimerPaused, setIsTimerPaused] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const [score, setScore] = useState(0)
+  const [showScore, setShowScore] = useState(false)
 
   useEffect(() => {
-    http.get("/questions_by_filters", { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }, params: { q: {id} } })
-      .then((response) => {
-        const fetchedQuestions = response.data.results;
+    http.get('/questions_by_filters', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { q: '', page: 1, pageSize: 0 } })
+    .then((response) => {
+      console.log(response)
+      const fetchedQuestions = response.data.results
 
-        const shuffledQuestions = fetchedQuestions.map((question: QuestionData) => ({
-          difficulty: question.difficulty,
-          question: question.question,
-          options: shuffleArray([question.correct_answer, ...question.incorrect_answers]),
-          answer: question.correct_answer
-        }))
-        setQuestions(shuffledQuestions)
-        setIsLoading(false)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }, [id])
+      const shuffledQuestions = fetchedQuestions.map((question: QuestionData) => ({
+        difficulty: question.difficulty,
+        question: question.question,
+        options: shuffleArray([question.correct_answer, ...question.incorrect_answers]),
+        answer: question.correct_answer
+      }))
+      setQuestions(shuffleArray(shuffledQuestions))
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+  }, [])
 
   const handleAnswerSelection = (questionIndex: number, selectedAnswer: string) => {
     if (!validated) {
@@ -47,14 +42,12 @@ export const Quiz = () => {
     }
   };
 
-  const handleValidateAnswer = (isTimeUp = false) => {
+  const handleValidateAnswer = () => {
     if (questions.length === 0) return
     const correct = questions[currentQuestion]?.answer
     setCorrectAnswer(correct ?? "")
     
-    if (isTimeUp) {
-      setValidationMessage("Temps ecoulé !")
-    } else if (answers[currentQuestion] === correct) {
+    if (answers[currentQuestion] === correct) {
       setScore(score + 1)
       setValidationMessage("Bonne reponse !")
     } else {
@@ -62,28 +55,20 @@ export const Quiz = () => {
     }
 
     setValidated(true)
-    setIsTimerPaused(true)
-  };
+  }
 
-  
   const handleNextQuestion = () => {
     setValidated(false)
     setCorrectAnswer("")
-    setIsTimerPaused(false)
-    setResetKey((prev) => prev + 1)
     if (currentQuestion + 1 < questions.length) {
       setCurrentQuestion(currentQuestion + 1)
     } else {
       setShowScore(true)
     }
-  };
+  }
 
   const isAnswerSelected = answers[currentQuestion] !== undefined
   const barProgress = ((currentQuestion + 1) / questions.length) * 100
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
 
   return (
     <div>
@@ -105,18 +90,13 @@ export const Quiz = () => {
             Votre score est de {score} / {questions.length}
           </h3>
           <div className="mt-28">
-            <NavLink to="/themechoice" className="mt-28 text-2xl hover:underline">
-              Retour au choix des catégories
+            <NavLink to="/modechoice" className="mt-28 text-2xl hover:underline">
+              Retour au choix du mode
             </NavLink>
           </div>
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center text-center gap-10">
-          <Timer 
-            onTimeUp={() => setTimeout(() => handleValidateAnswer(true), 0)}
-            resetKey={resetKey}
-            isPaused={isTimerPaused}
-            />
           <h2>{questions[currentQuestion]?.question}</h2>
           <ul className="grid grid-cols-2 gap-6">
             {questions[currentQuestion]?.options.map((option, index) => (
@@ -167,5 +147,5 @@ export const Quiz = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}

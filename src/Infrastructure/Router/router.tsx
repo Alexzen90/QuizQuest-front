@@ -7,12 +7,12 @@ import { ForgotPassword } from '../../Application/Pages/Forgotpassword.tsx'
 import { ModeChoice } from '../../Application/Pages/modechoice.tsx'
 import { Infoaleatoire } from '../../Application/Pages/infoaleatoire.tsx'
 import { ThemeChoice } from '../../Application/Pages/themechoice.tsx'
-import { Questionmoderandom } from '../../Application/Pages/questionmoderandom.tsx'
 import { QuizCreation } from '../../Application/Pages/quizcreation.tsx'
 import { QuizCategoriePage } from '../../Application/Pages/QuizCategoriePage.tsx'
 import { QuizSelectionPage } from '../../Application/Pages/QuizSelectionPage.tsx'
 import { QuizDisplay } from '../../Application/Pages/QuizDisplay.tsx'
 import { Policy } from '../../Application/Pages/Policy.tsx'
+import { QuizrandomDisplay } from '../../Application/Pages/QuizrandomDisplay.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -62,8 +62,8 @@ export const router = createBrowserRouter([
     element: <ForgotPassword />
   },
   {
-    path: '/questionrandom',
-    element: <Questionmoderandom />
+    path: '/quizrandomdisplay',
+    element: <QuizrandomDisplay />
   },
   {
     path: '/quizcreation',
