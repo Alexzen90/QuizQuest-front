@@ -11,6 +11,7 @@ export const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
 
   const navigate = useNavigate()
@@ -23,12 +24,15 @@ export const Login = () => {
       if (response.data.token) {
         localStorage.setItem('token', response.data.token)
         localStorage.setItem('RememberMe', rememberMe.toString())
-        navigate('/modechoice')
+        setErrorMessage('')
+        setSuccessMessage('Connexion reussie !')
+        setTimeout(() => {
+          navigate('/modechoice')
+        }, 2000)
       }
     }).catch(error => {
       console.log(error)
       setErrorMessage("Ce nom d'utilisateur ou le mot de passe est incorrect.")
-      window.alert("Ce nom d'utilisateur ou le mot de passe est incorrect.")
     })
   }
 
@@ -44,6 +48,7 @@ export const Login = () => {
         onChange={(e) => setPassword(e.target.value)}/>
 
         {errorMessage && <p className="text-amber-500 mt-2">{errorMessage}</p>}
+        {successMessage && <p className="text-green-500 mt-2">{successMessage}</p>}
 
         <div className="flex justify-between">
           <div className="mt-2 flex text-white items-center">
