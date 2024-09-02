@@ -139,7 +139,7 @@ export const Quiz = () => {
                     ? "bg-red-500 text-white"
                     : answers[currentQuestion] === option
                     ? "bg-green-500 text-white"
-                    : "bg-gray-100 hover:bg-gray-200"
+                    : "bg-sky-100 hover:bg-sky-200"
                 }`}
                 onClick={() => handleAnswerSelection(currentQuestion, option)}
               >

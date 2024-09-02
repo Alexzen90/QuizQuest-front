@@ -9,6 +9,7 @@ export const QuizCreation = () => {
   const [categorie, setCategorie] = useState('')
   const [questions, setQuestions] = useState({})
   const [errorMessage, setErrorMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
 
   const navigate = useNavigate()
 
@@ -29,20 +30,8 @@ export const QuizCreation = () => {
     setQuestions(prevQuestions => ({
       ...prevQuestions,
       [`question${number}`]: questionData
-    }));
-  };
-
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputName = e.target.value
-    setName(inputName)
-
-    const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]');
-    if (savedQuizzes.some((quiz: any) => quiz.name === inputName)) {
-      setErrorMessage('Ce nom existe déjà, choisissez-en un autre !')
-    } else {
-      setErrorMessage('')
-    }
-  };
+    }))
+  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -51,50 +40,30 @@ export const QuizCreation = () => {
       name,
       categorie,
       ...questions
-    };
+    }
 
-    const saveToLocalStorage = () => {
-      try {
-
-        const savedQuizzes = JSON.parse(localStorage.getItem('quizzes') || '[]');
-    
-        if (savedQuizzes.some((quiz: any) => quiz.name === quizData.name)) {
-          setErrorMessage('Il existe déjà un quiz avec ce nom');
-          return false;
-        }
-        savedQuizzes.push(quizData);
-        localStorage.setItem('quizzes', JSON.stringify(savedQuizzes));
-    
-        const savedCategories = JSON.parse(localStorage.getItem('categories') || '[]');
-        if (!savedCategories.includes(quizData.categorie)) {
-          savedCategories.push(quizData.categorie);
-          localStorage.setItem('categories', JSON.stringify(savedCategories));
-        }
-        return true;
-
-      } catch (error) {
-        console.error('Error saving to local storage:', error);
-        setErrorMessage('Erreur lors de la sauvegarde. Veuillez réessayer.');
-        return false;
-      }
-    };
+    let isCategoryNew = false
+    let currentCategoryId = ''
 
     try {
 
-      const savedCategories = JSON.parse(localStorage.getItem('categories') || '[]');
-      let currentCategoryId = savedCategories.includes(quizData.categorie) ? savedCategories : ""
-      if (!savedCategories.includes(quizData.categorie)) {
-        const categoryResponse = await http.post('/categorie', { name: quizData.categorie }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
-        console.log('Category creation response:', categoryResponse);
-        currentCategoryId = categoryResponse.data._id
-      } else if (savedCategories.includes(quizData.categorie)) {
-        const categoryResponse = await http.get('/categorie', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { fields: "name", value: quizData.categorie } }); 
-        console.log('Category retrieval response:', categoryResponse);
-        currentCategoryId = categoryResponse.data._id
+      const categoryResponse = await http.get('/categories_by_filters', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { q: "" } })
+      .then(response => response.data.results.map((category: any) => category.name))
+      console.log('Category retrieval response:', categoryResponse)
+    
+      if (categoryResponse.includes(quizData.categorie)) {
+        currentCategoryId = categoryResponse.data._id;
+      } else {
+        // Create new category
+        const newCategoryResponse = await http.post('/categorie', { name: quizData.categorie }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
+        console.log('Category creation response:', newCategoryResponse)
+        currentCategoryId = newCategoryResponse.data._id;
+        isCategoryNew = true;
       }
 
       const quizResponse = await http.post('/quiz', { name: quizData.name, categorie_id: currentCategoryId }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
       console.log('Quiz creation response:', quizResponse)
+
       let quizId = quizResponse.data._id
       let userId = quizResponse.data.user_id
 
@@ -110,19 +79,26 @@ export const QuizCreation = () => {
         return null // Ignore non-question properties
       }).filter(Boolean) // Remove null values
 
-      const questionResponse = await http.post('/questions', questionDataArray, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }});
-      console.log('Question creation response:', questionResponse)
+      const questionResponsePromise = http.post('/questions', questionDataArray, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }})
 
-      
-  
-      
-  
-      if (saveToLocalStorage()) {
-        navigate('/themechoice');
-      }
+      questionResponsePromise.then(response => {
+        console.log('Question creation response', response)
+        if (response.data) {
+          setSuccessMessage('Création du quiz réussie !')
+          setErrorMessage('')
+          setTimeout(() => {
+            navigate('/themechoice')
+          }, 2000)
+        }
+      })
     } catch (error) {
       console.error('Error creating quiz or questions:', error);
-      setErrorMessage('Une erreur est survenue lors de la création du quiz. Veuillez réessayer.');
+      setErrorMessage('Le nom de ce quiz existe déjà, choisissez-en un autre !')
+      if (isCategoryNew && currentCategoryId) {
+        // Delete created category if it's new and there's an error
+        const deleteNewCategory =await http.delete(`/categorie/${currentCategoryId}`, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } })
+        console.log('Category deletion response:', deleteNewCategory)
+      }
     }
   };
 
@@ -131,12 +107,11 @@ export const QuizCreation = () => {
       <form className="w-1/3 p-5 border-solid rounded-3xl flex flex-col" onSubmit={handleSubmit}>
         <label className="block text-white font-bold text-2xl mt-5" htmlFor="name">Choisissez un nom pour votre quiz</label>
         <input className="w-full p-2 mb-2 rounded-md" type="text" placeholder="Nom du quiz"
-          onChange={handleNameChange} required />
-        {errorMessage && <p className="text-amber-500 text-xl mb-5">{errorMessage}</p>}
+          onChange={(e) => setName(e.target.value)} required />
 
         <label className="block text-white font-bold text-2xl mt-5" htmlFor="theme">Choisissez une catégorie pour votre quiz</label>
         <input className="w-full p-2 mb-10 rounded-md" type="text" placeholder="Nom de la catégorie"
-          onChange={(e) => setCategorie(e.target.value)} />
+          onChange={(e) => setCategorie(e.target.value)} required />
 
         <p className="text-amber-300 text-xl mb-10">Vous allez créer 10 questions: 4 de niveau facile, 3 de niveau moyen et 3 de niveau difficile.</p>
 
@@ -148,11 +123,12 @@ export const QuizCreation = () => {
           ))
         }
 
-        <div className="flex justify-center">
+        <div className="flex flex-col items-center justify-center">
+        {errorMessage && <p className="text-amber-500 text-2xl mb-5">{errorMessage}</p>}
+        {successMessage && <p className="text-green-500 mt-2">{successMessage}</p>}
           <button type="submit"
             className="min-w-96 w-1/4 bg-amber-500 hover:bg-amber-700 text-white text-2xl 
             font-bold py-2 px-4 rounded-md my-10"
-            disabled={!!errorMessage}
           >
             Créer le quiz
           </button>

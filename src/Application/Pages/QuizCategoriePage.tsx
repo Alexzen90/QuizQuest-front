@@ -33,7 +33,7 @@ export const QuizCategoriePage = () => {
 
   return (
     <div className="flex flex-col items-center gap-10 justify-center h-full">
-      <h1 className="mt-16 text-white text-2xl">Choisissez un quiz dans la catégorie {categorie} </h1>
+      <h1 className="text-3xl text-center font-bold text-white mt-20 mb-10">Choisissez un quiz dans la catégorie {categorie} </h1>
       <div className={`grid ${quizzes.length < 4 ? 'grid-cols-' + quizzes.length : 'grid-cols-4'} gap-8 text-xl text-center text-white justify-items-center`}>
         {quizzes
         .map((quiz, index) => (

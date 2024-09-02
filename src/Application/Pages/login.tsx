@@ -38,7 +38,7 @@ export const Login = () => {
 
   return (
     <div className="flex justify-center items-center h-full mt-7">
-      <form className="p-5 border-solid rounded-3xl flex flex-col" onSubmit={handleSubmit}>
+      <form className="p-5 border-solid rounded-3xl flex flex-col w-1/3" onSubmit={handleSubmit}>
         <label className="block text-white font-bold text-2xl" htmlFor="username">Username</label>
         <input className="w-full p-2 mb-7 rounded-md" type="text" placeholder="username" 
         onChange={(e) => setUsername(e.target.value)}/>

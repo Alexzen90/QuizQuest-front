@@ -1,13 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { AppLayout } from '../../Application/Layout/appLayout.tsx'
-import { Informations } from '../../Application/Pages/informations.tsx'
-import { SignUp } from '../../Application/Pages/signup.tsx'
-import { Login } from '../../Application/Pages/login.tsx'
+import { Informations } from '../../Application/Pages/Informations.tsx'
+import { SignUp } from '../../Application/Pages/Signup.tsx'
+import { Login } from '../../Application/Pages/Login.tsx'
 import { ForgotPassword } from '../../Application/Pages/Forgotpassword.tsx'
-import { ModeChoice } from '../../Application/Pages/modechoice.tsx'
-import { Infoaleatoire } from '../../Application/Pages/infoaleatoire.tsx'
-import { ThemeChoice } from '../../Application/Pages/themechoice.tsx'
-import { QuizCreation } from '../../Application/Pages/quizcreation.tsx'
+import { ModeChoice } from '../../Application/Pages/Modechoice.tsx'
+import { Infoaleatoire } from '../../Application/Pages/Infoaleatoire.tsx'
+import { ThemeChoice } from '../../Application/Pages/Themechoice.tsx'
+import { QuizCreation } from '../../Application/Pages/Quizcreation.tsx'
 import { QuizCategoriePage } from '../../Application/Pages/QuizCategoriePage.tsx'
 import { QuizSelectionPage } from '../../Application/Pages/QuizSelectionPage.tsx'
 import { QuizDisplay } from '../../Application/Pages/QuizDisplay.tsx'
@@ -22,6 +22,10 @@ export const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />
+      },
+      {
+        path: '/signup',
+        element: <SignUp />
       },
       {
         path: '/policy',
@@ -52,10 +56,6 @@ export const router = createBrowserRouter([
         element: <QuizSelectionPage />
       }
     ]
-  },
-  {
-    path: '/signup',
-    element: <SignUp />
   },
   {
     path: '/forgotpassword',
