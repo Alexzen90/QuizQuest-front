@@ -43,10 +43,10 @@ export const ThemeChoice = () => {
           </button>
         </NavLink>
       </div>
-      <div>
+      <div className="mt-16">
         <NavLink
           to="/modechoice"
-          className="mt-28 text-white text-2xl hover:underline"
+          className="text-white text-2xl hover:underline"
         >
           Retour au choix du mode
         </NavLink>

@@ -1,6 +1,9 @@
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 
 export const Infoaleatoire = () => {
+
+  const navigate = useNavigate()
+
   return(
     <>
     <div className="flex flex-col items-center justify-center mt-10">
@@ -16,7 +19,8 @@ export const Infoaleatoire = () => {
       </div>
       <div className="w-1/3 mt-2 items-center flex justify-center">
         <button className="text-white text-xl py-2 px-4 hover:underline w-1/3"><NavLink to="/modechoice">Retour</NavLink></button>
-        <button className="text-white text-xl py-2 px-4 bg-green-600 hover:bg-green-800 rounded-lg w-1/3"><NavLink to="/Quizrandomdisplay">Continuer</NavLink></button>
+        <button className="text-white text-xl py-2 px-4 bg-green-600 hover:bg-green-800 rounded-lg w-1/3"
+          onClick={() => navigate('/Quizrandomdisplay')}>Continuer</button>
       </div>
     </div>
     </>

@@ -48,10 +48,10 @@ export const QuizCategoriePage = () => {
         ))}
       </div>
       
-      <div>
+      <div className="mt-56">
         <NavLink
           to="/themechoice"
-          className="mt-28 text-white text-2xl hover:underline"
+          className="text-white text-2xl hover:underline"
         >
           Retour au choix des catégories
         </NavLink>
