@@ -20,7 +20,11 @@ export const ThemeChoice = () => {
       <h1 className="text-3xl text-center font-bold text-white mt-20 mb-10">
         Choisissez une catégorie
       </h1>
-      <div className={`grid ${categories.length < 4 ? 'grid-cols-' + categories.length : 'grid-cols-4'} gap-8 text-xl text-center text-white justify-items-center`}>
+      <div className={`grid ${
+          categories.length < 4
+            ? `grid-cols-${categories.length} justify-items-center`
+            : 'grid-cols-4 justify-items-center'
+        } gap-8 text-xl text-center text-white`}>
         {categories.map((categorie, index) => (
           <NavLink 
             key={index} 

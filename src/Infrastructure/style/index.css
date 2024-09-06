@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-sky-600;
+    @apply bg-sky-700;
   }
 }
 
@@ -23,10 +23,7 @@ html, body, main #root {
     padding:0;
     box-sizing: border-box;
 }
-body{
-    overflow: hidden;
-    min-height: 100vh;
-}
+
 section{
     position: absolute;
     top: 0;
@@ -155,5 +152,8 @@ span:nth-child(9){
     animation-duration: 2.75s;
 }
 
-
-
+.quizstyle{
+    overflow: hidden;
+    min-height: 100vh;
+    height: 100%;
+}

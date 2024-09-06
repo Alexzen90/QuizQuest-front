@@ -128,7 +128,7 @@ export const Quiz = () => {
             </div>
           </div>
           <h2>{questions[currentQuestion]?.question}</h2>
-          <ul className="grid grid-cols-2 gap-6">
+          <ul className="grid grid-cols-1 gap-6 2xl:grid-cols-2">
             {questions[currentQuestion]?.options.map((option, index) => (
               <li
                 key={index}

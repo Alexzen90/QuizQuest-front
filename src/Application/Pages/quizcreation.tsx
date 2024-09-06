@@ -48,11 +48,12 @@ export const QuizCreation = () => {
     try {
 
       const categoryResponse = await http.get('/categories_by_filters', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { q: "" } })
-      .then(response => response.data.results.map((category: any) => category.name))
+      .then(response => response.data.results)
       console.log('Category retrieval response:', categoryResponse)
     
-      if (categoryResponse.includes(quizData.categorie)) {
-        currentCategoryId = categoryResponse.data._id;
+      const category = categoryResponse.find((category: { name: string }) => category.name === quizData.categorie);
+      if (category) {
+        currentCategoryId = category._id;
       } else {
         // Create new category
         const newCategoryResponse = await http.post('/categorie', { name: quizData.categorie }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
