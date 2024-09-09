@@ -51,15 +51,15 @@ export const QuizCreation = () => {
       .then(response => response.data.results)
       console.log('Category retrieval response:', categoryResponse)
     
-      const category = categoryResponse.find((category: { name: string }) => category.name === quizData.categorie);
+      const category = categoryResponse.find((category: { name: string }) => category.name === quizData.categorie)
       if (category) {
-        currentCategoryId = category._id;
+        currentCategoryId = category._id
       } else {
         // Create new category
         const newCategoryResponse = await http.post('/categorie', { name: quizData.categorie }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
         console.log('Category creation response:', newCategoryResponse)
-        currentCategoryId = newCategoryResponse.data._id;
-        isCategoryNew = true;
+        currentCategoryId = newCategoryResponse.data._id
+        isCategoryNew = true
       }
 
       const quizResponse = await http.post('/quiz', { name: quizData.name, categorie_id: currentCategoryId }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
@@ -94,10 +94,10 @@ export const QuizCreation = () => {
       })
     } catch (error) {
       console.error('Error creating quiz or questions:', error);
-      setErrorMessage('Le nom de ce quiz existe déjà, choisissez-en un autre !')
+      setErrorMessage('Une erreur est survenue lors de la création du quiz. Veuillez reessayer.')
       if (isCategoryNew && currentCategoryId) {
         // Delete created category if it's new and there's an error
-        const deleteNewCategory =await http.delete(`/categorie/${currentCategoryId}`, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } })
+        const deleteNewCategory = await http.delete(`/categorie/${currentCategoryId}`, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } })
         console.log('Category deletion response:', deleteNewCategory)
       }
     }
