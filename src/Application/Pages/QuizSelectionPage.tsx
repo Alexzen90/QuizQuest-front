@@ -17,7 +17,7 @@ export const QuizSelectionPage = () => {
     .catch((error) => {
       console.error(error)
     })
-  }, [])
+  }, [name])
 
   return(
     <div className="flex flex-col items-center gap-16 justify-center h-full">
@@ -41,7 +41,7 @@ export const QuizSelectionPage = () => {
       <div>
         <>
           <button 
-            className="mt-8 text-white text-2xl hover:underline"
+            className="text-white text-2xl hover:underline"
             onClick={() => navigate(-1)}>Retour au choix des quizzes</button>
         </>
       </div>

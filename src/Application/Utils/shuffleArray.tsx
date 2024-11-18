@@ -1,4 +1,4 @@
-export const shuffleArray = (array: any[]) => {
+export const shuffleArray = (array: unknown[]) => {
   return array
     .map((value) => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)

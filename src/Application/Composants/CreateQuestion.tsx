@@ -22,7 +22,7 @@ export const CreateQuestion = (props: Props) => {
       correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers
     })
-  }, [question, correctAnswer, incorrectAnswers])
+  }, [question, correctAnswer, incorrectAnswers, props])
 
   const validateIncorrectAnswers = (input: string) => {
     const answers = input.split(', ')
@@ -41,8 +41,12 @@ export const CreateQuestion = (props: Props) => {
       <p className='text-white font-bold text-xl'>Difficulté : {props.difficulty}</p>
 
       <label className="block text-white font-bold text-2xl pt-5 px-3" htmlFor="question1">Question {props.questionNumber}</label>
-      <input className="w-full p-2 mb-2 rounded-md" type="text" placeholder="Écrivez votre question"
-        onChange={(e) => setQuestion(e.target.value)} required/>
+      
+      <input className="w-full p-2 mb-2 rounded-md" 
+        type="text" placeholder="Écrivez votre question"
+        onChange={(e) => setQuestion(e.target.value)} 
+        required
+      />
       
       <label className="block text-white font-bold text-2xl pt-5 px-3" htmlFor="bonnereponse">Bonne réponse</label>
       <input className="w-full p-2 mb-2 rounded-md" type="text" placeholder="Écrivez la bonne réponse"

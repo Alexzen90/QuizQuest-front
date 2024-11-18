@@ -16,7 +16,9 @@ export const Quizrandom = () => {
   const [showScore, setShowScore] = useState(false)
 
   useEffect(() => {
-    http.get('/questions_by_filters', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { q: '', page: 1, pageSize: 0 } })
+    http.get('/questions_by_filters', 
+      { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, 
+      params: { q: '', page: 1, pageSize: 0 } })
     .then((response) => {
       console.log(response)
       const fetchedQuestions = response.data.results
@@ -27,7 +29,7 @@ export const Quizrandom = () => {
         options: shuffleArray([question.correct_answer, ...question.incorrect_answers]),
         answer: question.correct_answer
       }))
-      setQuestions(shuffleArray(shuffledQuestions))
+      setQuestions(shuffleArray(shuffledQuestions) as Question[])
     })
     .catch((error) => {
       console.error(error)

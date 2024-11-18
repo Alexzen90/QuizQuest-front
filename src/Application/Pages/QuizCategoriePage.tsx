@@ -18,7 +18,7 @@ export const QuizCategoriePage = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, [])
+  }, [categorie])
 
   useEffect(() => {
     http.get('/quizzes_by_filters', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { q: catId} })
@@ -47,8 +47,7 @@ export const QuizCategoriePage = () => {
             </NavLink>
         ))}
       </div>
-      
-      <div className="mt-56">
+      <div className="mt-48">
         <NavLink
           to="/themechoice"
           className="text-white text-2xl hover:underline"

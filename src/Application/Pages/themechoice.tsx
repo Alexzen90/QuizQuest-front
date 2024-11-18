@@ -5,31 +5,33 @@ import { SortArray } from "../Utils/SortArray";
 
 export const ThemeChoice = () => {
 
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<string[]>([]);
 
   useEffect(() => {
-     http.get('/categories_by_filters', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } })
+     http.get('/categories_by_filters', 
+      { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } })
       .then((response) => {
-        const categorieNames = response.data.results.map((categorie: any) => categorie.name);
+        const categorieNames = response.data.results
+        .map((categorie: { name: string }) => categorie.name);
         setCategories(categorieNames.sort(SortArray));
       })
   }, [])
 
   return (
-    <div className="flex flex-col items-center gap-10 justify-center h-full">
-      <h1 className="text-3xl text-center font-bold text-white mt-20 mb-10">
+    <div className="flex flex-col items-center gap-10 justify-center h-[calc(100vh-230px)]">
+      <h1 className="text-3xl text-center font-bold text-white pt-32">
         Choisissez une catégorie
       </h1>
-      <div className={`grid ${
+      <div className={`w-[70%] grid ${
           categories.length < 4
             ? `grid-cols-${categories.length} justify-items-center`
             : 'grid-cols-4 justify-items-center'
-        } gap-8 text-xl text-center text-white`}>
+        } gap-3 text-xl text-center text-white`}>
         {categories.map((categorie, index) => (
           <NavLink 
             key={index} 
             to={`/themechoice/${categorie}`} 
-            className="relative p-6 bg-gradient-to-r min-w-80 from-amber-700 to-amber-600 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl"
+            className="relative p-6 bg-gradient-to-r w-60 from-amber-700 to-amber-600 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl"
           >
             <p className="relative z-10">{categorie}</p>
             <div className="absolute inset-0 bg-black opacity-0 transition-opacity duration-300 hover:opacity-10 rounded-lg"></div>
@@ -47,7 +49,7 @@ export const ThemeChoice = () => {
           </button>
         </NavLink>
       </div>
-      <div className="mt-16">
+      <div className="mb-4">
         <NavLink
           to="/modechoice"
           className="text-white text-2xl hover:underline"

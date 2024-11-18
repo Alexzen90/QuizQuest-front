@@ -48,6 +48,10 @@ export const router = createBrowserRouter([
         element: <ThemeChoice />
       },
       {
+        path: '/quizcreation',
+        element: <QuizCreation />
+      },
+      {
         path: '/themechoice/:categorie',
         element: <QuizCategoriePage />
       },
@@ -64,10 +68,6 @@ export const router = createBrowserRouter([
   {
     path: '/quizrandomdisplay',
     element: <QuizrandomDisplay />
-  },
-  {
-    path: '/quizcreation',
-    element: <QuizCreation />
   },
   {
     path: '/themechoice/:categorie/:name/:id',

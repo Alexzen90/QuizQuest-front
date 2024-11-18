@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom"
 export const Policy = () => {
   return(
     <>
-    <div className="flex flex-col items-center justify-center mt-10">
-      <div className="w-1/3 p-7 text-2xl mb-5 font-medium bg-white rounded-3xl">
+    <div className="h-[calc(100vh-230px)] flex flex-col items-center justify-center mt-10">
+      <div className="w-2/3 p-7 text-base mb-5 font-medium bg-white rounded-3xl">
         <h1 className="text-3xl font-bold text-center mb-8">Politique de confidentialité</h1>
         <p>Nous attachons une grande importance à la protection de vos données personnelles. Voici comment nous les collectons et les utilisons :</p>
         <br />

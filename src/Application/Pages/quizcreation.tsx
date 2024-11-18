@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { CreateQuestion } from "../Composants/CreateQuestion"
 import { http } from "../../Infrastructure/Http/axios.instance"
-import { useNavigate } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { QuestionData } from "../../Module/Types/quizType"
 
 export const QuizCreation = () => {
@@ -49,7 +49,7 @@ export const QuizCreation = () => {
 
       const categoryResponse = await http.get('/categories_by_filters', { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }, params: { q: "" } })
       .then(response => response.data.results)
-      console.log('Category retrieval response:', categoryResponse)
+      // console.log(categoryResponse)
     
       const category = categoryResponse.find((category: { name: string }) => category.name === quizData.categorie)
       if (category) {
@@ -57,16 +57,16 @@ export const QuizCreation = () => {
       } else {
         // Create new category
         const newCategoryResponse = await http.post('/categorie', { name: quizData.categorie }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
-        console.log('Category creation response:', newCategoryResponse)
+        // console.log(newCategoryResponse)
         currentCategoryId = newCategoryResponse.data._id
         isCategoryNew = true
       }
 
       const quizResponse = await http.post('/quiz', { name: quizData.name, categorie_id: currentCategoryId }, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } });
-      console.log('Quiz creation response:', quizResponse)
+      // console.log(quizResponse)
 
-      let quizId = quizResponse.data._id
-      let userId = quizResponse.data.user_id
+      const quizId = quizResponse.data._id
+      const userId = quizResponse.data.user_id
 
       const questionDataArray = Object.entries(quizData).map(([key, value]) => {
         if (key.startsWith('question')) {
@@ -83,7 +83,7 @@ export const QuizCreation = () => {
       const questionResponsePromise = http.post('/questions', questionDataArray, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }})
 
       questionResponsePromise.then(response => {
-        console.log('Question creation response', response)
+        // console.log(response)
         if (response.data) {
           setSuccessMessage('Création du quiz réussie !')
           setErrorMessage('')
@@ -98,14 +98,14 @@ export const QuizCreation = () => {
       if (isCategoryNew && currentCategoryId) {
         // Delete created category if it's new and there's an error
         const deleteNewCategory = await http.delete(`/categorie/${currentCategoryId}`, { headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` } })
-        console.log('Category deletion response:', deleteNewCategory)
+        console.log(deleteNewCategory)
       }
     }
   };
 
   return (
     <div className="flex justify-center items-center h-full">
-      <form className="w-1/3 p-5 border-solid rounded-3xl flex flex-col" onSubmit={handleSubmit}>
+      <form className="w-2/4 p-5 border-solid rounded-3xl flex flex-col" onSubmit={handleSubmit}>
         <label className="block text-white font-bold text-2xl mt-5" htmlFor="name">Choisissez un nom pour votre quiz</label>
         <input className="w-full p-2 mb-2 rounded-md" type="text" placeholder="Nom du quiz"
           onChange={(e) => setName(e.target.value)} required />
@@ -134,6 +134,12 @@ export const QuizCreation = () => {
             Créer le quiz
           </button>
         </div>
+        <NavLink
+          to="/themechoice"
+          className="text-white text-center text-2xl hover:underline"
+        >
+          Retour au choix des catégories
+        </NavLink>
       </form>
     </div>
   );

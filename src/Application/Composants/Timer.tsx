@@ -23,7 +23,7 @@ export const Timer = ({ onTimeUp, resetKey, isPaused }: TimerProps) => {
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [resetKey, isPaused])
+  }, [resetKey, isPaused, onTimeUp])
 
   return <p className="text-2xl font-semibold">{count}</p>
 }

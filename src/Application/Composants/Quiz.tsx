@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Question, QuestionData } from "../../Module/Types/quizType";
 import { http } from "../../Infrastructure/Http/axios.instance";
-import { NavLink } from "react-router-dom";
 import { shuffleArray } from "../Utils/shuffleArray";
 import { Timer } from "./Timer";
 
@@ -86,29 +85,23 @@ export const Quiz = () => {
   }
 
   return (
-    <div>
+    <div className="bg-white rounded-2xl w-[600px]">
       <div>
-        <div className="bg-gray-200 h-2 mb-2">
+        <div className="bg-gray-200 h-2 mb-2 mt-4 mx-4">
           <div
             className="bg-green-500 h-full"
             style={{ width: `${barProgress}%` }}
           ></div>
         </div>
       </div>
-      <p className="mb-4 text-end">{currentQuestion + 1}/{questions.length}</p>
-
+      <p className="mb-4 mr-4 text-end">{currentQuestion + 1}/{questions.length}</p>
 
       {showScore ? (
         <div className="flex flex-col text-center gap-10">
           <h2 className="text-3xl">Quiz terminé !</h2>
-          <h3 className="text-2xl">
+          <h3 className="text-2xl mb-4">
             Votre score est de {score} / {questions.length}
           </h3>
-          <div className="mt-28">
-            <NavLink to="/themechoice" className="mt-28 text-2xl hover:underline">
-              Retour au choix des catégories
-            </NavLink>
-          </div>
         </div>
       ) : (
         <div className="flex flex-col justify-center items-center text-center gap-10">
@@ -127,7 +120,7 @@ export const Quiz = () => {
               </div>
             </div>
           </div>
-          <h2>{questions[currentQuestion]?.question}</h2>
+          <h2 className="p-2">{questions[currentQuestion]?.question}</h2>
           <ul className="grid grid-cols-1 gap-6 2xl:grid-cols-2">
             {questions[currentQuestion]?.options.map((option, index) => (
               <li
@@ -156,7 +149,7 @@ export const Quiz = () => {
             ))}
           </ul>
           {!validated ? (
-            <div className="flex justify-center">
+            <div className="flex justify-center mb-4">
               <button 
                 onClick={() => handleValidateAnswer()} 
                 className={`mt-4 p-2 w-1/2 rounded-3xl ${
@@ -169,7 +162,7 @@ export const Quiz = () => {
           ) : (
             <div className="flex flex-col justify-center items-center">
               <p className="text-center">{validationMessage}</p>
-              <button onClick={handleNextQuestion} className="mt-8 p-2 w-80 bg-sky-700 text-white rounded-3xl">
+              <button onClick={handleNextQuestion} className="mt-4 mb-4 p-2 w-80 bg-sky-700 text-white rounded-3xl">
                 Question suivante
               </button>
             </div>

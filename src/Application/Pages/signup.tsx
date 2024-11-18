@@ -50,14 +50,14 @@ export const SignUp = () => {
   }
 
   return (
-    <div className="flex justify-center items-center mt-10">
+    <div className="h-[calc(100vh-230px)] flex justify-center items-center mt-10">
       <form className="p-5 border-solid rounded-3xl flex flex-col w-1/3" onSubmit={handleSubmit}>
-        <label className="block text-white font-bold text-2xl" htmlFor="username">Username*</label>
+        <label className="block text-white font-bold text-2xl" htmlFor="username">Nom d'utilisateur*</label>
         <input className="w-full p-2 rounded-md" type="text" placeholder="username" 
         onChange={(e) => setUsername(e.target.value)} required/>
         {usernameErrorMessage && <p className="text-amber-500 mt-2">{usernameErrorMessage}</p>}
 
-        <label className="block text-white font-bold mt-5 text-2xl" htmlFor="name">Name</label>
+        <label className="block text-white font-bold mt-5 text-2xl" htmlFor="name">Nom</label>
         <input className="w-full p-2 rounded-md" type="text" placeholder="name" 
         onChange={(e) => setName(e.target.value)}/>
 
@@ -66,7 +66,7 @@ export const SignUp = () => {
         onChange={(e) => setEmail(e.target.value)} required/>
         {emailErrorMessage && <p className="text-amber-500 mt-2">{emailErrorMessage}</p>}
 
-        <label className="block text-white font-bold mt-5 text-2xl" htmlFor="password">Password*</label>
+        <label className="block text-white font-bold mt-5 text-2xl" htmlFor="password">Mot de passe*</label>
         <input className="w-full p-2 rounded-md" type="password" placeholder="*********" 
         onChange={(e) => setPassword(e.target.value)} required/>
 
